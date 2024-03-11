@@ -8,11 +8,16 @@ class BaseProfileSerializer(serializers.ModelSerializer):
     application into three profile types.
     """
     owner = serializers.ReadOnlyField(source='owner.username')
+    is_owner = serializers.SerializerMethodField()
+
+    def get_is_owner(self, obj):
+        request = self.context['request']
+        return request.user == obj.owner
 
     class Meta:
         model = Profile
         fields = ['id', 'owner', 'created_at',
-                  'updated_at', 'name', 'content', 'image']
+                  'updated_at', 'name', 'content', 'image', 'is_owner']
 
 
 class EmployeeProfileSerializer(BaseProfileSerializer):
@@ -36,4 +41,5 @@ class AdminProfileSerializer(BaseProfileSerializer):
         source='get_profile_type_display', read_only=True)
 
     class Meta(BaseProfileSerializer.Meta):
-        fields = BaseProfileSerializer.Meta.fields + ['profile_type']
+        fields = BaseProfileSerializer.Meta.fields + \
+            ['profile_type']

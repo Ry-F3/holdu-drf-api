@@ -16,7 +16,8 @@ class EmployeeProfileView(APIView):
 
     def get(self, request):
         profiles_employee = Profile.objects.filter(profile_type='employee')
-        serializer = EmployeeProfileSerializer(profiles_employee, many=True)
+        serializer = EmployeeProfileSerializer(
+            profiles_employee, many=True, context={'request': request})
 
         return Response(serializer.data)
 
@@ -32,19 +33,21 @@ class EmployeeProfileDetail(APIView):
         try:
             employeeProfile = Profile.objects.get(
                 profile_type='employee', pk=pk)
+            self.check_object_permissions(self.request, employeeProfile)
             return employeeProfile
         except Profile.DoesNotExist:
             raise Http404
 
     def get(self, request, pk):
         employeeProfile = self.get_object(pk)
-        serializer = EmployeeProfileSerializer(employeeProfile)
+        serializer = EmployeeProfileSerializer(
+            employeeProfile, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk):
         employeeProfile = self.get_object(pk)
         serializer = EmployeeProfileSerializer(
-            employeeProfile, data=request.data)
+            employeeProfile, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -59,7 +62,8 @@ class EmployerProfileView(APIView):
 
     def get(self, request):
         profiles_employer = Profile.objects.filter(profile_type='employer')
-        serializer = EmployerProfileSerializer(profiles_employer, many=True)
+        serializer = EmployerProfileSerializer(
+            profiles_employer, many=True, context={'request': request})
 
         return Response(serializer.data)
 
@@ -75,19 +79,21 @@ class EmployerProfileDetail(APIView):
         try:
             employerProfile = Profile.objects.get(
                 profile_type='employer', pk=pk)
+            self.check_object_permissions(self.request, employerProfile)
             return employerProfile
         except Profile.DoesNotExist:
             raise Http404
 
     def get(self, request, pk):
         employerProfile = self.get_object(pk)
-        serializer = EmployerProfileSerializer(employerProfile)
+        serializer = EmployerProfileSerializer(
+            employerProfile, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk):
         employerProfile = self.get_object(pk)
         serializer = EmployerProfileSerializer(
-            employerProfile, data=request.data)
+            employerProfile, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -102,7 +108,8 @@ class AdminProfileView(APIView):
 
     def get(self, request):
         profiles_admin = Profile.objects.filter(profile_type='admin')
-        serializer = AdminProfileSerializer(profiles_admin, many=True)
+        serializer = AdminProfileSerializer(
+            profiles_admin, many=True, context={'request': request})
 
         return Response(serializer.data)
 
@@ -117,19 +124,21 @@ class AdminProfileDetail(APIView):
     def get_object(self, pk):
         try:
             adminProfile = Profile.objects.get(profile_type='admin', pk=pk)
+            self.check_object_permissions(self.request, adminProfile)
             return adminProfile
         except Profile.DoesNotExist:
             raise Http404
 
     def get(self, request, pk):
         adminProfile = self.get_object(pk)
-        serializer = AdminProfileSerializer(adminProfile)
+        serializer = AdminProfileSerializer(
+            adminProfile, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk):
         adminProfile = self.get_object(pk)
         serializer = AdminProfileSerializer(
-            adminProfile, data=request.data)
+            adminProfile, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
