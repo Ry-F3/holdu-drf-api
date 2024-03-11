@@ -1,4 +1,5 @@
 from django.http import Http404
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Profile
@@ -23,6 +24,7 @@ class EmployeeProfileDetail(APIView):
     """
     Employee Profile get by id, if id does not exist return a http 404 error.
     """
+    serializer_class = EmployeeProfileSerializer
 
     def get_object(self, pk):
         try:
@@ -36,6 +38,15 @@ class EmployeeProfileDetail(APIView):
         employeeProfile = self.get_object(pk)
         serializer = EmployeeProfileSerializer(employeeProfile)
         return Response(serializer.data)
+
+    def put(self, request, pk):
+        employeeProfile = self.get_object(pk)
+        serializer = EmployeeProfileSerializer(
+            employeeProfile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class EmployerProfileView(APIView):
@@ -55,6 +66,7 @@ class EmployerProfileDetail(APIView):
     """
     Employer Profile get by id, if id does not exist return a http 404 error.
     """
+    serializer_class = EmployerProfileSerializer
 
     def get_object(self, pk):
         try:
@@ -68,6 +80,15 @@ class EmployerProfileDetail(APIView):
         employerProfile = self.get_object(pk)
         serializer = EmployerProfileSerializer(employerProfile)
         return Response(serializer.data)
+
+    def put(self, request, pk):
+        employerProfile = self.get_object(pk)
+        serializer = EmployerProfileSerializer(
+            employerProfile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AdminProfileView(APIView):
@@ -87,6 +108,7 @@ class AdminProfileDetail(APIView):
     """
     Admin Profile get by id, if id does not exist return a http 404 error.
     """
+    serializer_class = AdminProfileSerializer
 
     def get_object(self, pk):
         try:
@@ -99,3 +121,12 @@ class AdminProfileDetail(APIView):
         adminProfile = self.get_object(pk)
         serializer = AdminProfileSerializer(adminProfile)
         return Response(serializer.data)
+
+    def put(self, request, pk):
+        adminProfile = self.get_object(pk)
+        serializer = AdminProfileSerializer(
+            adminProfile, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
