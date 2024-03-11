@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from .models import Profile
 from rest_framework.permissions import IsAuthenticated
 from .serializers import EmployeeProfileSerializer, EmployerProfileSerializer, AdminProfileSerializer
+from drf_api.permissions import IsOwnerReadOnly
 
 
 class EmployeeProfileView(APIView):
@@ -25,6 +26,7 @@ class EmployeeProfileDetail(APIView):
     Employee Profile get by id, if id does not exist return a http 404 error.
     """
     serializer_class = EmployeeProfileSerializer
+    permission_classes = [IsOwnerReadOnly]
 
     def get_object(self, pk):
         try:
@@ -67,6 +69,7 @@ class EmployerProfileDetail(APIView):
     Employer Profile get by id, if id does not exist return a http 404 error.
     """
     serializer_class = EmployerProfileSerializer
+    permission_classes = [IsOwnerReadOnly]
 
     def get_object(self, pk):
         try:
@@ -109,6 +112,7 @@ class AdminProfileDetail(APIView):
     Admin Profile get by id, if id does not exist return a http 404 error.
     """
     serializer_class = AdminProfileSerializer
+    permission_classes = [IsOwnerReadOnly]
 
     def get_object(self, pk):
         try:
