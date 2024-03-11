@@ -14,7 +14,8 @@ class Profile(models.Model):
     owner = models.OneToOneField(
         User, on_delete=models.CASCADE)
     profile_type = models.CharField(
-        max_length=10, choices=PROFILE_CHOICES, default='admin')
+        max_length=10, choices=PROFILE_CHOICES, blank=True
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     name = models.CharField(max_length=255, blank=True)
@@ -31,7 +32,15 @@ class Profile(models.Model):
 
 def new_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(owner=instance)
+        if instance.is_superuser:
+            profile_type = 'admin'  # Set the default profile type for superusers
+        else:
+            # Use the provided profile_type for non-superusers
+            profile_type = instance.profile_type
+
+        print(
+            f"Creating profile for user {instance.username} with profile type: {profile_type}")
+        Profile.objects.create(owner=instance, profile_type=profile_type)
 
 
 post_save.connect(new_profile, sender=User)
