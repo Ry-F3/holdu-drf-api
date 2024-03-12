@@ -41,67 +41,55 @@ class ApplyJobView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated,
                           IsEmployeeProfile, IsApplicant]
 
-    def get_serializer_class(self):
-        if self.request.method == 'GET':
-            return JobSerializer
-        """ 
-        Serializer for job details without the form fields 
-        """
-        return self.serializer_class
-        """ 
-        Use the default serializer for other methods 
-        """
-
     def perform_create(self, serializer):
-        job_id = self.kwargs.get('pk')
-        job = get_object_or_404(Job, id=job_id)
-        applicant_profile = self.request.user.profile
+        try:
+            job_id = self.kwargs.get('pk')
+            job = get_object_or_404(Job, id=job_id)
+            applicant_profile = self.request.user.profile
 
-        """ 
-        Check if the user has already applied for the job 
-        """
-        existing_application = Application.objects.filter(
-            job=job, applicant=applicant_profile
-        ).first()
+            existing_application = Application.objects.filter(
+                job=job, applicant=applicant_profile).first()
 
-        if existing_application:
-            """ 
-            User has already applied, return a response without creating a new application 
+            if existing_application:
+                """ 
+                User has already applied, return a response without creating a new application 
+                """
+                serializer = self.get_serializer(existing_application, context={
+                                                 'request': self.request})
+                data = serializer.data
+                raise serializers.ValidationError(
+                    {"detail": "You have already applied for this job.", "data": data})
+
             """
-            serializer = self.get_serializer(
-                existing_application, context={'request': request})
-            data = serializer.data
-            return Response(
-                {"detail": "You have already applied for this job.", "data": data},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        """ 
-        Automatically set the applicant and job based on the current user's profile and the job_id 
-        """
-        serializer.save(applicant=applicant_profile, job=job)
+            Automatically set the applicant and job based on the current user's profile and the job_id
+            """
+            serializer.save(applicant=applicant_profile, job=job)
+        except Job.DoesNotExist:
+            raise Http404("Job not found")
 
     def get(self, request, *args, **kwargs):
-        job_id = self.kwargs.get('pk')
-        job = get_object_or_404(Job, id=job_id)
+        try:
+            job_id = self.kwargs.get('pk')
+            job = get_object_or_404(Job, id=job_id)
 
-        # Check if the user has applied for the job
-        is_applied = Application.objects.filter(
-            job=job, applicant=self.request.user.profile
-        ).exists()
+            is_applied = Application.objects.filter(
+                job=job, applicant=request.user.profile).exists()
 
-        if is_applied:
-            # If the user has already applied, return a response indicating the application status
-            serializer = JobSerializer(job, context={'request': request})
-            return Response(serializer.data)
+            if is_applied:
+                """ 
+                If the user has already applied, return a response indicating the application status
+                """
+                serializer = JobSerializer(
+                    job, context={'request': self.request})
+                return Response(serializer.data)
 
-        """ 
-        If the user hasn't applied, return a response with status 400 indicating that they haven't applied
-        """
-        return Response(
-            {"detail": "You haven't applied for this job yet."},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+            """ 
+            If the user hasn't applied, return a response with status 400 indicating that they haven't applied 
+            """
+            return Response({"detail": "You haven't applied for this job yet."}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Job.DoesNotExist:
+            raise Http404("Job not found")
 
 
 class UnapplyJobView(generics.DestroyAPIView):
@@ -110,38 +98,35 @@ class UnapplyJobView(generics.DestroyAPIView):
                           IsEmployeeProfile, IsApplicant]
 
     def get_object(self):
-        job_id = self.kwargs.get('pk')
-        job = get_object_or_404(Job, id=job_id)
-        applicant_profile = self.request.user.profile
-        return get_object_or_404(Application, job=job, applicant=applicant_profile)
+        try:
+            job_id = self.kwargs.get('pk')
+            job = get_object_or_404(Job, id=job_id)
+            applicant_profile = self.request.user.profile
+            return get_object_or_404(Application, job=job, applicant=applicant_profile)
+
+        except Job.DoesNotExist:
+            raise Http404("Job not found")
 
     def delete(self, request, *args, **kwargs):
-        application = self.get_object()
+        try:
+            application = self.get_object()
 
-        """ 
-        Check if the user has applied for the job 
-        """
-        if Application.objects.filter(
-            job=application.job, applicant=application.applicant
-        ).exists():
-            """ 
-            Serialize the application before deleting it 
-            """
-            serializer = self.get_serializer(
-                application, context={'request': request})
-            data = serializer.data
+            if Application.objects.filter(job=application.job, applicant=application.applicant).exists():
+                """ 
+                Serialize the application before deleting it
+                """
+                serializer = self.get_serializer(
+                    application, context={'request': self.request})
+                data = serializer.data
 
-            """ 
-            Delete the application 
-            """
-            application.delete()
+                """ 
+                Delete the application
+                """
+                application.delete()
 
-            return Response(
-                {"detail": "You have successfully unapplied from this job.", "data": data},
-                status=status.HTTP_200_OK
-            )
-        else:
-            """ 
-            User hasn't applied, return a forbidden response
-            """
-            raise Http404("You haven't applied for this job.")
+                return Response({"detail": "You have successfully unapplied from this job.", "data": data},
+                                status=status.HTTP_200_OK)
+            else:
+                raise Http404("You haven't applied for this job.")
+        except Job.DoesNotExist:
+            raise Http404("Job not found")
