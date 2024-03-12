@@ -1,7 +1,6 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
-from django.dispatch import receiver
 
 
 class Profile(models.Model):
@@ -14,7 +13,7 @@ class Profile(models.Model):
     owner = models.OneToOneField(
         User, on_delete=models.CASCADE)
     profile_type = models.CharField(
-        max_length=10, choices=PROFILE_CHOICES, blank=True
+        max_length=10, choices=PROFILE_CHOICES, default='', blank=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -33,7 +32,7 @@ class Profile(models.Model):
 def new_profile(sender, instance, created, **kwargs):
     if created:
         if instance.is_superuser:
-            profile_type = 'admin'  # Set the default profile type for superusers
+            profile_type = 'employee'  # Set the default profile type for superusers
         else:
             # Use the provided profile_type for non-superusers
             profile_type = instance.profile_type
