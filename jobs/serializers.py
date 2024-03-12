@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Job, Application
+from profiles.models import Profile
 from profiles.serializers import BaseProfileSerializer, EmployeeProfileSerializer, EmployerProfileSerializer
 
 
@@ -12,7 +13,8 @@ class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
         fields = ['employer_profile', 'job_listing_id', 'title', 'description', 'location', 'salary', 'closing_date',
-                  'created_at', 'updated_at', 'positions_available', 'applicants', 'is_applied']
+                  'created_at', 'updated_at', 'is_listing_closed', 'positions_available',
+                  'applicants', 'is_applied']
 
     def get_is_applied(self, obj):
         request = self.context.get('request')
@@ -36,3 +38,24 @@ class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
         fields = '__all__'
+
+
+class ApplicantSerializer(serializers.ModelSerializer):
+    applicant = EmployeeProfileSerializer()
+
+    class Meta:
+        model = Application
+        fields = '__all__'
+
+    def update(self, instance, validated_data):
+        employer_applicant_choice = validated_data.get(
+            'employer_applicant_choice')
+        instance.employer_applicant_choice = employer_applicant_choice
+        instance.save()
+        return instance
+
+
+class UpdateApplicantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = ['employer_applicant_choice']

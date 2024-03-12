@@ -1,5 +1,6 @@
 from django.db import models
 from profiles.models import Profile
+from django.utils import timezone
 
 
 class Job(models.Model):
@@ -27,6 +28,15 @@ class Job(models.Model):
     applicants = models.ManyToManyField(
         Profile, through='Application', related_name='job_applications', blank=True
     )
+    is_listing_closed = models.BooleanField(default=False)
+
+    def close_listing(self):
+        self.is_listing_closed = True
+        self.save()
+
+    def reopen_listing(self):
+        self.is_listing_closed = False
+        self.save()
 
     class Meta:
         ordering = ['-created_at']
@@ -36,8 +46,14 @@ class Job(models.Model):
 
 
 class Application(models.Model):
-    APPLICANT_STATUS_CHOICES = (
+    EMPLOYEE_STATUS_CHOICES = (
         ('applied', 'Applied'),
+    )
+
+    EMPLOYER_APPLICANT_STATUS_CHOICES = (
+        ('binned', 'Binned'),
+        ('shortlisted', 'Shortlisted'),
+        ('accepted', 'Accepted')
     )
 
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
@@ -45,8 +61,12 @@ class Application(models.Model):
         Profile, on_delete=models.CASCADE, limit_choices_to={
             'profile_type': 'employee'}
     )
-    status = models.CharField(
-        max_length=20, choices=APPLICANT_STATUS_CHOICES, default='pending')
+    employee_status = models.CharField(
+        max_length=20, choices=EMPLOYEE_STATUS_CHOICES, default='applied'
+    )
+    employer_applicant_choice = models.CharField(
+        max_length=20, choices=EMPLOYER_APPLICANT_STATUS_CHOICES, default='pending'
+    )
 
     class Meta:
         """
@@ -55,4 +75,4 @@ class Application(models.Model):
         unique_together = ('job', 'applicant')
 
     def __str__(self):
-        return f"{self.applicant} - {self.job}: {self.get_status_display()}"
+        return f"{self.applicant} - {self.job}: {self.get_employee_status_display()} - {self.get_employer_applicant_status_display()}"
