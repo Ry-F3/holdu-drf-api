@@ -12,6 +12,11 @@ class Job(models.Model):
     employer_profile = models.ForeignKey(
         Profile, on_delete=models.CASCADE, related_name='jobs_created', limit_choices_to={'profile_type': 'employer'}
     )
+    employees = models.ManyToManyField(
+        Profile, related_name='assigned_jobs',
+        limit_choices_to={'profile_type': 'employee'},
+        blank=True
+    )
     closing_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
