@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Job, Application
 from profiles.models import Profile
+from django.contrib.auth.models import User
 from profiles.serializers import BaseProfileSerializer, EmployeeProfileSerializer, EmployerProfileSerializer
 
 
@@ -13,7 +14,7 @@ class JobSerializer(serializers.ModelSerializer):
     class Meta:
         model = Job
         fields = ['employer_profile', 'job_listing_id', 'title', 'description', 'location', 'salary', 'closing_date',
-                  'created_at', 'updated_at', 'is_listing_closed', 'positions_available',
+                  'created_at', 'updated_at', 'is_listing_closed', 'positions_available', 'employees',
                   'applicants', 'is_applied']
 
     def get_is_applied(self, obj):
@@ -37,7 +38,7 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        fields = '__all__'
+        fields = ['job', 'employee_status', 'applicant']
 
 
 class ApplicantSerializer(serializers.ModelSerializer):
@@ -59,3 +60,23 @@ class UpdateApplicantSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
         fields = ['employer_applicant_choice']
+
+
+class EmployeeJobResponseSerializer(serializers.ModelSerializer):
+    employee_acceptance_response = serializers.ChoiceField(
+        choices=Application.EMPLOYEE_ACCEPTANCE_CHOICES)
+
+    class Meta:
+        model = Application
+        fields = ['employee_acceptance_response']
+
+
+class EmployeeJobSerializer(serializers.ModelSerializer):
+    owner = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Profile
+        fields = ['id', 'owner', 'name', 'content', 'image']
+
+    def get_owner(self, obj):
+        return obj.owner.username

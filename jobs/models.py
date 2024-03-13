@@ -10,10 +10,10 @@ class Job(models.Model):
     salary = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True)
     employer_profile = models.ForeignKey(
-        Profile, on_delete=models.CASCADE, related_name='jobs_created', limit_choices_to={'profile_type': 'employer'}
+        'profiles.Profile', on_delete=models.CASCADE, related_name='jobs_created', limit_choices_to={'profile_type': 'employer'}
     )
     employees = models.ManyToManyField(
-        Profile, related_name='assigned_jobs',
+        'profiles.Profile', related_name='assigned_jobs',
         limit_choices_to={'profile_type': 'employee'},
         blank=True
     )
@@ -59,6 +59,17 @@ class Application(models.Model):
         ('binned', 'Binned'),
         ('shortlisted', 'Shortlisted'),
         ('accepted', 'Accepted')
+    )
+
+    EMPLOYEE_ACCEPTANCE_CHOICES = (
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected')
+    )
+
+    has_responded = models.BooleanField(default=False)
+
+    employee_acceptance_response = models.CharField(
+        max_length=20, choices=EMPLOYEE_ACCEPTANCE_CHOICES, null=True, blank=True
     )
 
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
