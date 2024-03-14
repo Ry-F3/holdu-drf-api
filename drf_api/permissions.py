@@ -11,6 +11,11 @@ class IsOwnerReadOnly(permissions.BasePermission):
         return obj.owner == request.user
 
 
+class IsNotOwner(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.owner != request.user
+
+
 class IsEmployerProfile(permissions.BasePermission):
     message = "You do not have permission to perform this action."
 
