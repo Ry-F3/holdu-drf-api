@@ -29,5 +29,4 @@ urlpatterns = [
          JobEmployeesListView.as_view(), name='job_employees'),
     path('jobs/post/<int:job_id>/employees/<int:employee_id>/',
          JobEmployeesDetail.as_view(), name='job_employees'),
-
 ]
