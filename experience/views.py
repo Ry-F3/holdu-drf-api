@@ -8,19 +8,33 @@ from drf_api.permissions import IsOwnerReadOnly
 from rest_framework.permissions import IsAuthenticated
 
 
-class WorkExperienceListView(ListAPIView):
+class WorkExperienceListView(generics.ListAPIView):
     """
     Endpoint: GET /work-experience/
     Permission: Authenticated users only.
-    Response: List of work experiences belonging to the authenticated user.
+    Response: List of work experiences.
+    """
+
+    queryset = WorkExperience.objects.all()
+    serializer_class = WorkExperienceSerializer
+
+
+class WorkExperienceUserView(ListAPIView):
+    """
+    Endpoint: GET /work-experience/user/<user_id>/
+    Permission: Authenticated users only.
+    Response: List of work experiences belonging to the specified user.
     """
 
     serializer_class = WorkExperienceSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return WorkExperience.objects.filter(owner=user)
+        # Get the user ID from the URL parameters
+        user_id = self.kwargs.get('user_id')
+
+        # Filter work experiences by the specified user ID
+        return WorkExperience.objects.filter(owner_id=user_id)
 
 
 class WorkExperienceCreateView(generics.CreateAPIView):
