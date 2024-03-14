@@ -16,6 +16,11 @@ class IsNotOwner(permissions.BasePermission):
         return obj.owner != request.user
 
 
+class IsRatingCreator(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return obj.created_by == request.user
+
+
 class IsEmployerProfile(permissions.BasePermission):
     message = "You do not have permission to perform this action."
 

@@ -2,13 +2,13 @@ from django.http import Http404
 from rest_framework.exceptions import NotFound
 from django.shortcuts import get_object_or_404
 from rest_framework import status, generics
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView, UpdateAPIView, DestroyAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import Profile, Rating
 from rest_framework.permissions import IsAuthenticated
 from .serializers import EmployeeProfileSerializer, EmployerProfileSerializer, RateUserSerializer, BaseProfileSerializer, AdminProfileSerializer, RatingSerializer
-from drf_api.permissions import IsOwnerReadOnly
+from drf_api.permissions import IsOwnerReadOnly, IsRatingCreator
 from django.db.models import Avg
 
 
@@ -40,7 +40,7 @@ class ProfilesView(APIView):
 
 class RateUserView(CreateAPIView):
     serializer_class = RateUserSerializer
-    permission_classes = [IsAuthenticated, IsOwnerReadOnly]
+    permission_classes = [IsAuthenticated, IsRatingCreator]
 
     def get_profile(self, pk):
         return get_object_or_404(Profile, pk=pk)
@@ -71,7 +71,8 @@ class RateUserView(CreateAPIView):
         rating = Rating.objects.create(
             rating=serializer.validated_data.get('rating'),
             comment=serializer.validated_data.get('comment'),
-            rate_user=rate_user
+            rate_user=rate_user,
+            created_by=request.user
         )
 
         # Add the rating to the rated user's profile
@@ -104,10 +105,10 @@ class ProfileRatingAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class RatingEditAPIView(RetrieveUpdateAPIView):
+class RatingEditAPIView(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsRatingCreator]
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -137,6 +138,18 @@ class RatingEditAPIView(RetrieveUpdateAPIView):
         # Handle the case when there are no ratings
         profile.average_rating = average_rating or 0
         profile.save()
+
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        profile = instance.rate_user.profile
+        self.perform_destroy(instance)
+        ratings_count = profile.ratings.count()
+        if ratings_count > 0:
+            self.update_average_rating(profile)
+        else:
+            profile.average_rating = 0.0
+            profile.save()
+        return Response({'message': 'Rating deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
 
 
 class EmployeeProfileView(APIView):

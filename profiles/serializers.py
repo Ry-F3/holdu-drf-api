@@ -62,6 +62,25 @@ class RateUserSerializer(serializers.Serializer):
 
 
 class RatingSerializer(serializers.ModelSerializer):
+    created_by = serializers.SerializerMethodField()
+
     class Meta:
         model = Rating
-        fields = ['id', 'rating', 'comment']
+        fields = ['created_by', 'id', 'rate_user',
+                  'rating', 'comment', 'created_at', 'updated_at']
+
+    def get_created_by(self, obj):
+        if obj.created_by:
+            # Get the created_by profile data
+            profile = obj.created_by.profile
+            # Check the profile_type to determine the appropriate serializer
+            if profile.profile_type == 'employee':
+                profile_serializer = EmployeeProfileSerializer(profile)
+            elif profile.profile_type == 'employer':
+                profile_serializer = EmployerProfileSerializer(profile)
+            else:
+                return None
+            # Retrieve the serialized data including the image field
+            profile_data = profile_serializer.data
+            return profile_data
+        return None
