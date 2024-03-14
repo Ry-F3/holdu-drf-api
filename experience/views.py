@@ -48,13 +48,19 @@ class WorkExperienceCreateView(generics.CreateAPIView):
     serializer_class = WorkExperienceSerializer
     permission_classes = [IsAuthenticated, IsOwnerReadOnly]
 
-    def perform_create(self, serializer):
-        """Save new work experience."""
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
         try:
-            serializer.save(owner=self.request.user)
-            return Response({"message": "Work experience created successfully.", "data": WorkExperienceSerializer(instance).data}, status=status.HTTP_200_OK)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response({"message": "Work experience created successfully.", "data": serializer.data}, status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def perform_create(self, serializer):
+        """Save new work experience."""
+        serializer.save(owner=self.request.user)
 
 
 class WorkExperienceEditView(generics.RetrieveUpdateDestroyAPIView):
