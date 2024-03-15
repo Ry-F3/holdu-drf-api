@@ -1,4 +1,4 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, filters
 from rest_framework.generics import ListAPIView
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
@@ -17,6 +17,23 @@ class WorkExperienceListView(generics.ListAPIView):
 
     queryset = WorkExperience.objects.all()
     serializer_class = WorkExperienceSerializer
+
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter
+    ]
+
+    search_fields = [
+        'job_title',
+        'company_name',
+        'job_summary',
+        'skills'
+    ]
+
+    ordering_fields = [
+        'owner',
+        'skills'
+    ]
 
 
 class WorkExperienceUserView(ListAPIView):
