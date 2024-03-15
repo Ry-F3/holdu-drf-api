@@ -1,4 +1,4 @@
-from rest_framework import generics, permissions, status, serializers
+from rest_framework import generics, permissions, status, serializers, filters
 from rest_framework.views import APIView
 from django.http import Http404
 from rest_framework.response import Response
@@ -22,6 +22,23 @@ class JobListView(generics.ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter
+    ]
+
+    search_fields = [
+        'title',
+        'salary',
+        'location',
+        'description',
+    ]
+
+    ordering_fields = [
+        'created_at',
+        'is_listing_closed'
+    ]
 
 
 class JobPostView(generics.CreateAPIView):
@@ -194,23 +211,37 @@ class ApplicantListView(generics.ListAPIView):
     serializer_class = ApplicantSerializer
     permission_classes = [permissions.IsAuthenticated, IsEmployerProfile]
 
+    filter_backends = [
+        filters.OrderingFilter,
+        filters.SearchFilter
+    ]
+
+    search_fields = [
+        'applicant__name',
+        'employer_applicant_choice',
+        'employee_acceptance_response'
+    ]
+    ordering_fields = [
+        'applicant',
+        'applicant__name',
+        'employer_applicant_choice',
+        'employee_acceptance_response'
+    ]
+
     def get_queryset(self):
         job_id = self.kwargs.get('pk')
         job = get_object_or_404(
             Job, id=job_id, employer_profile=self.request.user.profile)
-        """
-        Update is_listing_closed field based on current time
-        """
 
+        """ Update is_listing_closed field based on current time """
         if job.closing_date <= timezone.now():
             job.is_listing_closed = True
             job.save()
         else:
-            """ 
-            If the listing is not closed, raise a ValidationError 
-            """
+            """ If the listing is not closed, raise a ValidationError """
             raise ValidationError("The job listing is not closed yet.")
 
+        """ Return filtered applicants related to the job """
         return job.application_set.all()
 
     def list(self, request, *args, **kwargs):
@@ -247,6 +278,16 @@ class ApplicantDetailView(generics.RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(
             instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
+
+        """
+        Check if all conditions are met
+        """
+        if (instance.has_responded and
+            instance.employee_acceptance_response == "accepted" and
+            instance.employee_status == "applied" and
+                instance.employer_applicant_choice == "accepted"):
+            raise ValidationError("You have already hired this applicant.")
+
         self.perform_update(serializer)
         return Response(serializer.data)
 

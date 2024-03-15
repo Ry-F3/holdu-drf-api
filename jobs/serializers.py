@@ -2,7 +2,10 @@ from rest_framework import serializers
 from .models import Job, Application
 from profiles.models import Profile
 from django.contrib.auth.models import User
-from profiles.serializers import BaseProfileSerializer, EmployeeProfileSerializer, EmployerProfileSerializer
+from profiles.serializers import (
+    BaseProfileSerializer, EmployeeProfileSerializer,
+    EmployerProfileSerializer
+)
 
 
 class JobSerializer(serializers.ModelSerializer):
@@ -31,14 +34,14 @@ class JobSerializer(serializers.ModelSerializer):
 
 
 class ApplicationSerializer(serializers.ModelSerializer):
-    applicant = serializers.StringRelatedField(
+    applicant_username = serializers.CharField(
         source='applicant.user.username', read_only=True)
     job = serializers.PrimaryKeyRelatedField(
         queryset=Job.objects.all(), write_only=True)
 
     class Meta:
         model = Application
-        fields = ['job', 'employee_status', 'applicant']
+        fields = ['job', 'employee_status', 'applicant_username']
 
 
 class ApplicantSerializer(serializers.ModelSerializer):

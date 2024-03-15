@@ -8,8 +8,12 @@ class BaseProfileSerializer(serializers.ModelSerializer):
     Extend the base profile serializer to divide the 
     application into three profile types.
     """
-    owner = serializers.ReadOnlyField(source='owner.username')
+    owner_username = serializers.ReadOnlyField(source='owner.username')
     is_owner = serializers.SerializerMethodField()
+    profile_type_display = serializers.ChoiceField(
+        choices=Profile.PROFILE_CHOICES, source='get_profile_type_display', read_only=True)
+    average_rating = serializers.ReadOnlyField()
+    ratings = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
         request = self.context.get('request')
@@ -17,35 +21,35 @@ class BaseProfileSerializer(serializers.ModelSerializer):
             return request.user == obj.owner
         return False
 
+    """
+    Ensure ratings are read only
+    """
+
+    def get_ratings(self, obj):
+        return obj.ratings.values_list('id', flat=True)
+
     class Meta:
         model = Profile
-        fields = ['id', 'owner', 'created_at',
-                  'updated_at', 'name', 'content', 'image', 'is_owner', 'average_rating', 'ratings']
+        fields = ['id', 'owner_username', 'created_at',
+                  'updated_at', 'name', 'content', 'image', 'is_owner', 'average_rating', 'ratings', 'profile_type_display']
 
 
 class EmployeeProfileSerializer(BaseProfileSerializer):
-    profile_type = serializers.CharField(
-        source='get_profile_type_display', read_only=True)
 
     class Meta(BaseProfileSerializer.Meta):
-        fields = BaseProfileSerializer.Meta.fields + ['profile_type']
+        fields = BaseProfileSerializer.Meta.fields
 
 
 class EmployerProfileSerializer(BaseProfileSerializer):
-    profile_type = serializers.CharField(
-        source='get_profile_type_display', read_only=True)
 
     class Meta(BaseProfileSerializer.Meta):
-        fields = BaseProfileSerializer.Meta.fields + ['profile_type']
+        fields = BaseProfileSerializer.Meta.fields
 
 
 class AdminProfileSerializer(BaseProfileSerializer):
-    profile_type = serializers.CharField(
-        source='get_profile_type_display', read_only=True)
 
     class Meta(BaseProfileSerializer.Meta):
-        fields = BaseProfileSerializer.Meta.fields + \
-            ['profile_type']
+        fields = BaseProfileSerializer.Meta.fields
 
 
 class RateUserSerializer(serializers.Serializer):
@@ -63,10 +67,12 @@ class RateUserSerializer(serializers.Serializer):
 
 class RatingSerializer(serializers.ModelSerializer):
     created_by = serializers.SerializerMethodField()
+    # Rename 'id' field to 'id_for_rating'
+    id_for_rating = serializers.IntegerField(source='id')
 
     class Meta:
         model = Rating
-        fields = ['created_by', 'id', 'rate_user',
+        fields = ['created_by', 'id_for_rating', 'rate_user',
                   'rating', 'comment', 'created_at', 'updated_at']
 
     def get_created_by(self, obj):

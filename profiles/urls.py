@@ -1,6 +1,10 @@
 from django.urls import path
-from .views import EmployeeProfileView, EmployerProfileView, AdminProfileView, ProfilesView, RateUserView, ProfileRatingAPIView, RatingEditAPIView
 from profiles import views
+from .views import (
+    EmployeeProfileView, EmployerProfileView, AdminProfileView,
+    ProfilesView, RateUserView, ProfileRatingAPIView,
+    RatingEditAPIView
+)
 
 urlpatterns = [
     path('profiles/', ProfilesView.as_view(), name='profiles'),
