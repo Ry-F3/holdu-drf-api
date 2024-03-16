@@ -57,7 +57,7 @@ class Rating(models.Model):
 def new_profile(sender, instance, created, **kwargs):
     if created:
         if instance.is_superuser:
-            profile_type = 'employee'  # Set the default profile type for superusers
+            profile_type = 'admin'  # Set the default profile type for superusers
         else:
             # Use the provided profile_type for non-superusers
             profile_type = instance.profile_type
