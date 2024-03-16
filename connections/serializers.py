@@ -24,7 +24,20 @@ class ConnectionSerializer(serializers.ModelSerializer):
                 self.fields.pop('accepted', None)
 
     def create(self, validated_data):
+        # Check if owner and connection are the same user
+        if validated_data['owner'] == validated_data['connection']:
+            raise serializers.ValidationError(
+                {'detail': "You can't connect with yourself."})
+
+        # Check if the connection already exists
+        existing_connection = Connection.objects.filter(
+            owner=validated_data['owner'], connection=validated_data['connection']).exists()
+        if existing_connection:
+            raise serializers.ValidationError(
+                {'detail': 'You have already made this connection.'})
+
         try:
             return super().create(validated_data)
         except IntegrityError:
-            raise serializers.ValidationError({'detail': 'possible duplicate'})
+            raise serializers.ValidationError(
+                {'detail': 'Possible duplicate or integrity error.'})
