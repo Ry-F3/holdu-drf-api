@@ -51,3 +51,13 @@ class IsApplicant(permissions.BasePermission):
             # Employees (applicants) can only apply once to a job
             return not Application.objects.filter(job=obj, applicant=request.user.profile).exists()
         return False  # Deny permission if obj is not a Job instance
+
+
+class IsOwnerOrSender(permissions.BasePermission):
+    """
+    Custom permission to only allow owners or senders of the chat to view, update, or delete it.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        # Check if the user is the owner of the chat or the sender of the message
+        return obj.sender == request.user or obj.recipient == request.user

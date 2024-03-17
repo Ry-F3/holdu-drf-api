@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'jobs',
     'experience',
     'connections',
+    'chats',
 ]
 
 MIDDLEWARE = [

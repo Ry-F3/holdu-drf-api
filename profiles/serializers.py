@@ -67,7 +67,7 @@ class RateUserSerializer(serializers.Serializer):
 
 class RatingSerializer(serializers.ModelSerializer):
     created_by = serializers.SerializerMethodField()
-    # Rename 'id' field to 'id_for_rating'
+    """ Rename 'id' field to 'id_for_rating' """
     id_for_rating = serializers.IntegerField(source='id')
 
     class Meta:
@@ -76,17 +76,18 @@ class RatingSerializer(serializers.ModelSerializer):
                   'rating', 'comment', 'created_at', 'updated_at']
 
     def get_created_by(self, obj):
+        """ Display data for created_by """
         if obj.created_by:
-            # Get the created_by profile data
+            """ Get the created_by profile data """
             profile = obj.created_by.profile
-            # Check the profile_type to determine the appropriate serializer
+            """ Check the profile_type to determine the appropriate serializer """
             if profile.profile_type == 'employee':
                 profile_serializer = EmployeeProfileSerializer(profile)
             elif profile.profile_type == 'employer':
                 profile_serializer = EmployerProfileSerializer(profile)
             else:
                 return None
-            # Retrieve the serialized data including the image field
+            """ Retrieve the serialized data including the image field """
             profile_data = profile_serializer.data
             return profile_data
         return None
