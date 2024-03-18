@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'experience',
     'connections',
     'chats',
+    'comments',
 ]
 
 MIDDLEWARE = [

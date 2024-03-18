@@ -1,4 +1,4 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, filters
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Chat, Message
@@ -14,17 +14,12 @@ class ChatListCreateAPIView(generics.ListCreateAPIView):
 
     This view receives incoming requests from users who want to list existing chats or create new ones.
     """
+    queryset = Chat.objects.all()
     serializer_class = ChatSerializer
     permission_classes = [IsAuthenticated, IsOwnerOrSender]
 
-    def get_queryset(self):
-        user = self.request.user
-        """ 
-        Filter chats where the sender is the authenticated user or the recipient is the authenticated user
-        """
-        queryset = Chat.objects.filter(
-            sender=user) | Chat.objects.filter(recipient=user)
-        return queryset
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['sender__username', 'recipient__username']
 
     def post(self, request, *args, **kwargs):
         """

@@ -10,7 +10,7 @@ class Chat(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        # Define unique constraint to prevent duplicate messages within a chat
+        # Define unique constraint to prevent duplicate messages within the chat list
         unique_together = ['sender', 'recipient', 'timestamp']
 
     def __str__(self):
