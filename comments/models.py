@@ -5,7 +5,8 @@ from jobs.models import Job
 
 class Comment(models.Model):
     """
-    Comment model, related to User and Job 
+    Comment model, related to User and Job.
+    Please note: code has been mostly used from CI's walkthrough project.
     """
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)

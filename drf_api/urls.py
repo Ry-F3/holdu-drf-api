@@ -24,5 +24,6 @@ urlpatterns = [
     path('', include('experience.urls')),
     path('', include('connections.urls')),
     path('', include('chats.urls')),
+    path('', include('comments.urls')),
 
 ]
