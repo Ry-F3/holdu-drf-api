@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Job, Application
+from likes.models import Like
 from profiles.models import Profile
 from django.contrib.auth.models import User
 from profiles.serializers import (
@@ -13,12 +14,13 @@ class JobSerializer(serializers.ModelSerializer):
     applicants = BaseProfileSerializer(many=True, read_only=True)
     is_applied = serializers.SerializerMethodField(default=False)
     job_listing_id = serializers.SerializerMethodField()
+    like_id = serializers.SerializerMethodField()
 
     class Meta:
         model = Job
         fields = ['employer_profile', 'job_listing_id', 'title', 'description', 'location', 'salary', 'closing_date',
                   'created_at', 'updated_at', 'is_listing_closed', 'positions_available', 'employees',
-                  'applicants', 'is_applied']
+                  'applicants', 'like_id', 'is_applied']
 
     def get_is_applied(self, obj):
         request = self.context.get('request')
@@ -31,6 +33,15 @@ class JobSerializer(serializers.ModelSerializer):
 
     def get_job_listing_id(self, obj):
         return obj.id
+
+    def get_like_id(self, obj):
+        user = self.context['request'].user
+        if user.is_authenticated:
+            like = Like.objects.filter(
+                owner=user, job=obj
+            ).first()
+            return like.id if like else None
+        return None
 
 
 class ApplicationSerializer(serializers.ModelSerializer):

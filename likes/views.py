@@ -8,6 +8,7 @@ from drf_api.permissions import IsOwnerReadOnly
 class LikeList(generics.ListCreateAPIView):
     """
     API endpoint that allows likes to be viewed or created.
+    Please note: code has been mostly used from CI's walkthrough project.
     """
     queryset = Like.objects.all()
     serializer_class = LikeSerializer

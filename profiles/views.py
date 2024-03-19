@@ -7,15 +7,14 @@ from rest_framework.response import Response
 from .models import Profile, Rating
 from rest_framework.permissions import IsAuthenticated
 from drf_api.permissions import IsOwnerReadOnly, IsRatingCreator
-from django.db.models import Avg
+from django.db.models import Avg, Count, Q
 from rest_framework.generics import (
     CreateAPIView, RetrieveUpdateAPIView, RetrieveAPIView,
     UpdateAPIView, DestroyAPIView
 )
 from .serializers import (
-    EmployeeProfileSerializer, EmployerProfileSerializer, RateUserSerializer,
-    BaseProfileSerializer, AdminProfileSerializer, RatingSerializer,
-    BaseProfileSerializer
+    RateUserSerializer,
+    BaseProfileSerializer, RatingSerializer,
 )
 
 
@@ -25,7 +24,11 @@ class ProfilesView(generics.ListAPIView):
     """
     permission_classes = [IsAuthenticated]
     serializer_class = BaseProfileSerializer
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.annotate(
+        likes_count=Count('owner__like', distinct=True),
+        connections_count=Count('owner__connections', filter=Q(
+            owner__connections__accepted=True), distinct=True)
+    ).order_by('-created_at')
 
     filter_backends = [
         filters.OrderingFilter,
@@ -44,6 +47,9 @@ class ProfilesView(generics.ListAPIView):
         'average_rating',
         'created_at',
         'profile_type',
+        'connections_count',
+        'likes_count',
+
     ]
 
     def get(self, request, *args, **kwargs):
@@ -56,6 +62,23 @@ class ProfilesView(generics.ListAPIView):
 
         """ Return the serialized data in JSON response """
         return Response(serializer.data)
+
+    def get_serializer_context(self):
+        """
+        Add the request object to the serializer's context.
+        """
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
+
+
+class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    Profile detail view.
+    """
+    permission_classes = [IsAuthenticated]
+    queryset = Profile.objects.all()
+    serializer_class = BaseProfileSerializer
 
 
 class RateUserView(CreateAPIView):
@@ -129,19 +152,28 @@ class ProfileRatingAPIView(generics.ListAPIView):
     ]
 
     def get_queryset(self):
-        """ Get the profile object """
-        profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
+        profile_id = self.kwargs.get('pk')
+        queryset = Rating.objects.filter(rate_user__profile__id=profile_id)
+        return queryset
 
-        """ Get all ratings related to this profile """
-        ratings = profile.ratings.all()
-
-        return ratings
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
 
 class RatingEditAPIView(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     permission_classes = [IsAuthenticated, IsRatingCreator]
+
+    def get_serializer_context(self):
+        """
+        Add the request object to the serializer's context.
+        """
+        context = super().get_serializer_context()
+        context['request'] = self.request
+        return context
 
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -196,140 +228,3 @@ class RatingEditAPIView(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
             profile.average_rating = 0.0
             profile.save()
         return Response({'message': 'Rating deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
-
-
-class EmployeeProfileView(APIView):
-    """
-    Employee Profile view.
-    """
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        profiles_employee = Profile.objects.filter(profile_type='employee')
-        serializer = EmployeeProfileSerializer(
-            profiles_employee, many=True, context={'request': request})
-
-        return Response(serializer.data)
-
-
-class EmployeeProfileDetail(APIView):
-    """
-    Employee Profile get by id, if id does not exist return a http 404 error.
-    """
-    serializer_class = EmployeeProfileSerializer
-    permission_classes = [IsOwnerReadOnly]
-
-    def get_object(self, pk):
-        try:
-            employeeProfile = Profile.objects.get(
-                profile_type='employee', pk=pk)
-            self.check_object_permissions(self.request, employeeProfile)
-            return employeeProfile
-        except Profile.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        employeeProfile = self.get_object(pk)
-        serializer = EmployeeProfileSerializer(
-            employeeProfile, context={'request': request})
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        employeeProfile = self.get_object(pk)
-        serializer = EmployeeProfileSerializer(
-            employeeProfile, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class EmployerProfileView(APIView):
-    """
-    Employer Profile view.
-    """
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        profiles_employer = Profile.objects.filter(profile_type='employer')
-        serializer = EmployerProfileSerializer(
-            profiles_employer, many=True, context={'request': request})
-
-        return Response(serializer.data)
-
-
-class EmployerProfileDetail(APIView):
-    """
-    Employer Profile get by id, if id does not exist return a http 404 error.
-    """
-    serializer_class = EmployerProfileSerializer
-    permission_classes = [IsOwnerReadOnly]
-
-    def get_object(self, pk):
-        try:
-            employerProfile = Profile.objects.get(
-                profile_type='employer', pk=pk)
-            self.check_object_permissions(self.request, employerProfile)
-            return employerProfile
-        except Profile.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        employerProfile = self.get_object(pk)
-        serializer = EmployerProfileSerializer(
-            employerProfile, context={'request': request})
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        employerProfile = self.get_object(pk)
-        serializer = EmployerProfileSerializer(
-            employerProfile, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class AdminProfileView(APIView):
-    """
-    Admin Profile view.
-    """
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        profiles_admin = Profile.objects.filter(profile_type='admin')
-        serializer = AdminProfileSerializer(
-            profiles_admin, many=True, context={'request': request})
-
-        return Response(serializer.data)
-
-
-class AdminProfileDetail(APIView):
-    """
-    Admin Profile get by id, if id does not exist return a http 404 error.
-    """
-    serializer_class = AdminProfileSerializer
-    permission_classes = [IsOwnerReadOnly]
-
-    def get_object(self, pk):
-        try:
-            adminProfile = Profile.objects.get(profile_type='admin', pk=pk)
-            self.check_object_permissions(self.request, adminProfile)
-            return adminProfile
-        except Profile.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk):
-        adminProfile = self.get_object(pk)
-        serializer = AdminProfileSerializer(
-            adminProfile, context={'request': request})
-        return Response(serializer.data)
-
-    def put(self, request, pk):
-        adminProfile = self.get_object(pk)
-        serializer = AdminProfileSerializer(
-            adminProfile, data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
