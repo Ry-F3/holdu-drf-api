@@ -7,3 +7,9 @@ class NotificationsConfig(AppConfig):
 
     def ready(self):
         import notifications.signals
+
+    """
+    Instructions to initiate signals.py from:
+    https://www.geeksforgeeks.org/how-to-create-and-use-signals-in-django/ 
+   
+    """

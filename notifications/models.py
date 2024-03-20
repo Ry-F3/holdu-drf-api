@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 
 
 class Notification(models.Model):
+    """
+    Code heavily inspired by: https://github.com/nacht-falter/sonic-explorers-api
+    I have made alterations to make it fit my project and models.
+    """
     CATEGORIES = [
         ('connection', 'Connection'),
         ('new_job', 'New Job'),
