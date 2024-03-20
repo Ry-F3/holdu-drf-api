@@ -17,7 +17,7 @@ class NotificationList(generics.ListAPIView):
         serializer.save(owner=self.request.user)
 
 
-class NotificationDetail(generics.RetrieveUpdateDestroyAPIView):
+class NotificationDetail(generics.RetrieveDestroyAPIView):
     queryset = Notification.objects.all()
     serializer_class = NotificationSerializer
     permission_classes = [permissions.IsAuthenticated, IsNotificationOwner]
