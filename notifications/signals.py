@@ -4,7 +4,7 @@ from .models import Notification
 from connections.models import Connection
 from jobs.models import Job
 from chats.models import Message
-from django.contrib.auth import get_user_model
+from profiles.models import Profile
 
 """
 Instructions for signals.py from:
@@ -12,8 +12,6 @@ https://www.geeksforgeeks.org/how-to-create-and-use-signals-in-django/
 Code heavily inspired by: https://github.com/nacht-falter/sonic-explorers-api
 I have made alterations to make it fit my project and models.
 """
-
-User = get_user_model()
 
 
 def create_notification(**kwargs):
@@ -87,14 +85,14 @@ def message_alert(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Job)
 def new_job_notification(sender, instance, created, **kwargs):
     if created:
-        print("New job created. Employer:", instance.employer_profile.owner)
-        print("Profile type of employer:",
-              instance.employer_profile.profile_type)
-        if instance.employer_profile.profile_type == 'employee':
-            print("Sending notification to employee:",
-                  instance.employer_profile.owner)
+        # Fetch all user profiles with the profile type 'employee'
+        employee_profiles = Profile.objects.filter(profile_type='employee')
+
+        # Iterate over the employee profiles and send notifications
+        for profile in employee_profiles:
+            print("Sending notification to employee:", profile.owner)
             data = {
-                "owner": instance.employer_profile.owner,
+                "owner": profile.owner,
                 "sender": instance.employer_profile.owner,
                 "title": "New Job Opportunity",
                 "category": 'new_job',
