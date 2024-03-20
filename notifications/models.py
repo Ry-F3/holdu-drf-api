@@ -13,6 +13,7 @@ class Notification(models.Model):
         ('accepted_application', 'Accepted Application'),
         ('message_alert', 'Message Alert'),
         ('connection_request', 'Connection_Request'),
+        ('new_rating', 'New_Rating'),
     ]
 
     owner = models.ForeignKey(

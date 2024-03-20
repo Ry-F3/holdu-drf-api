@@ -4,7 +4,7 @@ from .models import Notification
 from connections.models import Connection
 from jobs.models import Job
 from chats.models import Message
-from profiles.models import Profile
+from profiles.models import Profile, Rating
 
 """
 Instructions for signals.py from:
@@ -28,11 +28,9 @@ def create_notification(**kwargs):
 @receiver(post_save, sender=Connection)
 def connection_notification(sender, instance, created, **kwargs):
     if created:
-        print("Connection created. Owner:", instance.owner,
-              "Connection:", instance.connection)
+
         if instance.accepted:
-            print("Connection request accepted. Owner:",
-                  instance.owner, "Connection:", instance.connection)
+
             # Notification to the owner of the connection
             owner_notification_data = {
                 "owner": instance.owner,
@@ -54,8 +52,7 @@ def connection_notification(sender, instance, created, **kwargs):
             }
             create_notification(**sender_notification_data)
         else:
-            print("Connection request sent. Owner:",
-                  instance.connection, "Connection:", instance.owner)
+
             data = {
                 "owner": instance.connection,
                 "sender": instance.owner,
@@ -100,3 +97,18 @@ def new_job_notification(sender, instance, created, **kwargs):
                 "item_id": instance.id
             }
             create_notification(**data)
+
+
+@receiver(post_save, sender=Rating)
+def new_rating_notification(sender, instance, created, **kwargs):
+    if created:
+        # Create a new rating notification
+        data = {
+            "owner": instance.rate_user,
+            "sender": instance.created_by,
+            "title": "New Rating",
+            "category": 'new_rating',
+            "content": f"You have received a new rating from {instance.created_by.username}.",
+            "item_id": instance.id
+        }
+        Notification.objects.create(**data)
