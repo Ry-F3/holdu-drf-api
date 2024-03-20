@@ -12,7 +12,7 @@ class Profile(models.Model):
     )
 
     owner = models.OneToOneField(
-        User, on_delete=models.CASCADE)
+        User, on_delete=models.CASCADE, related_name='profile')
     profile_type = models.CharField(
         max_length=10, choices=PROFILE_CHOICES, default='', blank=True
     )

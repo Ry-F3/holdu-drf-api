@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile
+from .models import Profile, Rating
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -9,3 +9,13 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Profile, ProfileAdmin)
+
+
+class RatingAdmin(admin.ModelAdmin):
+    list_display = ('rating', 'rate_user', 'created_by', 'created_at')
+    list_filter = ('rating', 'created_at')
+    search_fields = ('rate_user__username', 'created_by__username')
+    date_hierarchy = 'created_at'
+
+
+admin.site.register(Rating, RatingAdmin)

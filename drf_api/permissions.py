@@ -11,6 +11,18 @@ class IsOwnerReadOnly(permissions.BasePermission):
         return obj.owner == request.user
 
 
+class IsNotificationOwner(permissions.BasePermission):
+    """
+    Custom permission to only allow owners of a notification to access it.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        """
+        Return True if the user is the owner of the notification, False otherwise.
+        """
+        return obj.owner == request.user
+
+
 class IsNotOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.owner != request.user
