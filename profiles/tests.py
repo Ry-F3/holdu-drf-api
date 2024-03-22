@@ -21,7 +21,7 @@ class ProfileTypeTest(TestCase):
         )
 
         """
-        Retrieve the profile associated with the admin user
+        Retrieve the profile associated with the admin  user
         """
         admin_profile = Profile.objects.get(owner=admin_user)
 
