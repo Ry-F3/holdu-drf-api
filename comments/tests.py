@@ -8,6 +8,8 @@ from rest_framework.test import APIClient
 from django.test import TestCase
 from django.contrib.auth.models import User
 
+print('test comments')
+
 
 class CommentTests(TestCase):
     def setUp(self):

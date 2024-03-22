@@ -6,6 +6,8 @@ from django.urls import reverse
 from .models import Chat, Message
 from .serializers import ChatSerializer
 
+print('test chats')
+
 
 class ChatTests(APITestCase):
     def setUp(self):

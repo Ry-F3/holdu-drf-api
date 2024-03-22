@@ -3,6 +3,8 @@ from django.test import TestCase
 from profiles.models import Profile, Rating
 from django.utils import timezone
 
+print('test profiles')
+
 
 class ProfileTypeTest(TestCase):
     def test_profile_type_assignment_admin(self):

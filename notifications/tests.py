@@ -13,6 +13,8 @@ from comments.models import Comment
 from datetime import datetime, timedelta
 from django.utils import timezone
 
+print('test notifications')
+
 
 class NotificationSignalTest(APITestCase):
     """Tests for notification creation signals."""

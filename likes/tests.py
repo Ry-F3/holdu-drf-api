@@ -9,6 +9,8 @@ from profiles.models import Profile
 from .models import Like
 from django.utils import timezone
 
+print('test likes')
+
 
 class LikeTests(TestCase):
     def setUp(self):

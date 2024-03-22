@@ -8,6 +8,8 @@ from profiles.models import Profile
 from django.utils import timezone
 from datetime import timedelta
 
+print('test jobs')
+
 
 class JobApplicationTests(TestCase):
     def setUp(self):
