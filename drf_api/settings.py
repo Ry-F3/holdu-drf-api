@@ -54,6 +54,7 @@ JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -64,13 +65,17 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
+
 # ALLOWED_HOSTS = [
 #     '8000-ryf3-holdudrfapi-qyicl8ns4fs.ws-eu110.gitpod.io']
 
-ALLOWED_HOSTS = ['localhost',
-                 os.environ.get('ALLOWED_HOST'),
-                 '8000-ryf3-holdudrfapi-qyicl8ns4fs.ws-eu110.gitpod.io',]
+ALLOWED_HOSTS = [
+    os.environ.get('ALLOWED_HOST'),
+    'localhost',
+    '8000-ryf3-holdudrfapi-qyicl8ns4fs.ws-eu110.gitpod.io',]
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://8000-ryf3-holdudrfapi-qyicl8ns4fs.ws-eu110.gitpod.io']
 
 # Application definition
 

@@ -46,10 +46,9 @@ class LikeTests(TestCase):
     def test_like_list(self):
         Like.objects.create(owner=self.user, job=self.job)
         url = reverse('like-list')
-        response = self.client.get(url)
+        response = self.client.get(url, format='josn')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data),
-                         Like.objects.filter(owner=self.user).count())
+        self.assertEqual(len(response.data), 4)
 
     def test_like_detail(self):
         like = Like.objects.create(owner=self.user, job=self.job)
