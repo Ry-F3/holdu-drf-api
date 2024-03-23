@@ -64,3 +64,94 @@ Throughout the development process, the project progressed through three sprints
 , milestones were used. These milestones helped in tracking the project's progress over time and provided a clear indication of the completion of specific phases or iterations.
 
 For visual representation and enhanced project management, three Kanban boards were utilised as sprints. The Kanban boards provided a visual overview of the project's progress, this allowed the tracking of tasks as they moved through various stages of completion. The Kanban boards for the project can be accessed via the following link: [Kanban Board](https://github.com/Ry-F3/holdu-drf-api/projects?query=is%3Aopen).
+
+<hr>
+
+#### Sprint 1 (March. 13th to 15th 2024)
+
+<details>
+
+<summary>Sprint details</summary>
+
+1. **CRUD Functionality for User Profiles:**
+* Implement Create, Read, Update, and Delete (CRUD) operations for user profiles.
+* Allow users to manage their profile information, including skills and experience, through API endpoints.
+2. **Endpoints for Rating and Reviewing Users:**
+* Develop endpoints for users to rate and review each other.
+* Calculate and display average ratings on user profiles.
+3. **User Profile Creation with Different Permissions:**
+* Enable users to create employee, employer, and admin profiles with distinct permissions and features.
+* Implement role-based access control to cater to different user roles and functionalities.
+4. **Search and Filtering Functionality for User Profiles:**
+* Implement search and filtering functionality for user profiles based on skills, ratings, and other criteria.
+* Optimise queries for performance and scalability.
+5. **Database Models for Job Listings:**
+* Define database models for job listings with fields such as title, description, skills, and compensation.
+* Implement CRUD functionality for managing job listings.
+
+All items completed on March. 15th 2024
+
+[Sprint Project Board](https://github.com/users/Ry-F3/projects/3)
+
+</details>
+
+<hr>
+
+#### Sprint 2 (March. 15th to 20th 2024)
+
+<details>
+
+<summary>Sprint details</summary>
+
+1. Database Models and Relationships for User Connections:
+* Define database models and relationships to manage user connections.
+* Allow users to send and accept connection requests, building a network of professional relationships.
+2. API Endpoints for Managing User Connections:
+* Create API endpoints to handle user connections.
+* Implement functionalities for sending, accepting, or rejecting connection requests, and fetching connection profiles.
+3. Database Models and Relationships for Direct Messages:
+* Establish database models and relationships for direct messages between users.
+* Enable users to send messages to specific connections.
+4. API Endpoints for Managing Direct Messages:
+* Develop API endpoints to manage direct messages.
+* Implement functionalities for sending, receiving, and deleting messages.
+5. Notification Mechanisms for Profile Activities:
+* Implement notification mechanisms for profile activities, such as connection requests, profile views, and messages.
+* Trigger notifications to inform users about relevant activities within the platform.
+6. Integration of Likes and Comments Functionality:
+* Integrate likes and comments functionalities into the existing features.
+* Enhance user engagement and interaction regarding job listings.
+
+All items completed on March. 20th 2024
+
+[Sprint Project Board](https://github.com/users/Ry-F3/projects/4)
+
+</details>
+
+<hr>
+
+#### Sprint 3 (March. 20th to 23th 2024)
+
+<details>
+
+<summary>Sprint details</summary>
+
+1. Integration of JWT Tokens for Security:
+* Incorporate JWT tokens into the project for enhanced security.
+* Implement authentication and authorization mechanisms, generating and validating tokens for user requests.
+2. Deployment to Heroku:
+* Deploy the project to Heroku with appropriate settings.
+* Configure environment variables, buildpacks, and ensure compatibility with Heroku's platform for web accessibility.
+3. Connection to External Database (ElephantSQL):
+* Connect the project to an external database (ElephantSQL) for persistent data storage.
+* Configure database connection settings, create necessary tables or collections, and implement data access logic.
+4. Writing Tests for Code Coverage:
+* Write tests to ensure code correctness, reliability, and maintainability.
+* Include unit tests for individual functions/components, integration tests for interactions between different parts, and end-to-end tests.
+5. Codebase Cleanup and Refactoring (In Progress):
+* Note: Due to time constraints, further refinement of the codebase, including cleanup and optimisation, will be deferred to future iterations.
+
+
+All items completed on March. 23th 2024 
+
+[Sprint Project Board](https://github.com/users/Ry-F3/projects/5)
