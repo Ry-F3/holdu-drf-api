@@ -161,6 +161,7 @@ All items completed on March. 23th 2024
 
 [Sprint Project Board](https://github.com/users/Ry-F3/projects/5)
 
+</details>
 
 ## Data Models
 
