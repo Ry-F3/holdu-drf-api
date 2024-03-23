@@ -205,6 +205,9 @@ Please note this model was heavily inspired by [Sonic Explorers API](https://git
 * Stores messages within chats, including sender, recipient, timestamp, and content.
 * Ensures uniqueness to prevent duplicate messages within a chat.
 
+<hr>
+
+## API Endpoints
 
 | Endpoint | HTTP Method | CRUD | View Type | Permissions |
 |----------|-------------|------|-----------|-------------|
@@ -247,3 +250,37 @@ Please note this model was heavily inspired by [Sonic Explorers API](https://git
 | /chats/ | GET | Read | List | Authenticated |
 |  | POST | Create | List | Authenticated |
 | /chats/<int:pk>/ | GET | Read | Detail | Authenticated |
+
+<hr>
+
+## Technologies Used
+
+### Frameworks and Libraries
+
+The API utilises [Django Rest Framework](https://www.django-rest-framework.org/) alongside Django, a toolkit for constructing APIs developed with Python.
+
+### Key Python Packages
+
+* [cloudinary](https://pypi.org/project/cloudinary/): Integrated for efficient media management and manipulation.
+* [django-filter](https://pypi.org/project/django-filter/): Provides filtering with URL parameters for querysets.
+* [psycopg2](https://pypi.org/project/psycopg2/): Facilitates seamless integration with PostgreSQL, a robust relational database management system.
+* [dj-database-url](https://pypi.org/project/dj-database-url/): Streamlines Django database management, enabling easy configuration via URLs.
+* [gunicorn](https://pypi.org/project/gunicorn/): Utilised as the WSGI server for deployment purposes.
+* [django-cloudinary-storage](https://pypi.org/project/django-cloudinary-storage/): Enables Django to utilise Cloudinary as its default file storage backend.
+* [django-allauth](https://pypi.org/project/django-allauth/): Empowers Django with advanced authentication and user management capabilities.
+* [dj-rest-auth](https://pypi.org/project/dj-rest-auth/): Enhances DRF with comprehensive authentication features. Note: Version 2.2.8 or older is required for custom UserSerializer functionality.
+* [django-cors-headers](https://pypi.org/project/django-cors-headers/): Facilitates handling of Cross-Origin Resource Sharing in Django.
+
+### Other Software
+
+- [GitHub](https://github.com/): Hosts the project repository, facilitating collaboration and version control.
+- [GitHub Issues](https://docs.github.com/en/issues): Utilised for Agile methodology, assigning user stories to issues and organizing them with labels.
+- [GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects): Employed for Agile sprint planning and task tracking. 
+- [GitHub CLI](https://cli.github.com/): Used for creating issues directly from the terminal.
+- [Git](https://git-scm.com/): Utilised for version control, enabling commits and pushes to GitHub from the command line.
+- [Heroku](https://heroku.com/): Selected for deploying the API.
+- [ElephantSQL](https://www.elephantsql.com/): Chosen for the project's PostgreSQL database.
+- [Cloudinary](https://cloudinary.com/): Employed for storing media files.
+- [Lucidchart](https://www.lucidchart.com/): Utilised to create the entity relationship diagram  for the project's data models.
+
+
