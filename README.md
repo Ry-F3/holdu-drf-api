@@ -73,6 +73,8 @@ For visual representation and enhanced project management, three Kanban boards w
 
 <summary>Sprint details</summary>
 
+<hr>
+
 1. **CRUD Functionality for User Profiles:**
 * Implement Create, Read, Update, and Delete (CRUD) operations for user profiles.
 * Allow users to manage their profile information, including skills and experience, through API endpoints.
@@ -103,22 +105,24 @@ All items completed on March. 15th 2024
 
 <summary>Sprint details</summary>
 
-1. Database Models and Relationships for User Connections:
+<hr>
+
+1. **Database Models and Relationships for User Connections:**
 * Define database models and relationships to manage user connections.
 * Allow users to send and accept connection requests, building a network of professional relationships.
-2. API Endpoints for Managing User Connections:
+2. **API Endpoints for Managing User Connections:**
 * Create API endpoints to handle user connections.
 * Implement functionalities for sending, accepting, or rejecting connection requests, and fetching connection profiles.
-3. Database Models and Relationships for Direct Messages:
+3. **Database Models and Relationships for Direct Messages:**
 * Establish database models and relationships for direct messages between users.
 * Enable users to send messages to specific connections.
-4. API Endpoints for Managing Direct Messages:
+4. **API Endpoints for Managing Direct Messages:**
 * Develop API endpoints to manage direct messages.
 * Implement functionalities for sending, receiving, and deleting messages.
-5. Notification Mechanisms for Profile Activities:
+5. **Notification Mechanisms for Profile Activities:**
 * Implement notification mechanisms for profile activities, such as connection requests, profile views, and messages.
 * Trigger notifications to inform users about relevant activities within the platform.
-6. Integration of Likes and Comments Functionality:
+6. **Integration of Likes and Comments Functionality:**
 * Integrate likes and comments functionalities into the existing features.
 * Enhance user engagement and interaction regarding job listings.
 
@@ -136,21 +140,22 @@ All items completed on March. 20th 2024
 
 <summary>Sprint details</summary>
 
-1. Integration of JWT Tokens for Security:
+<hr>
+
+1. **Integration of JWT Tokens for Security:**
 * Incorporate JWT tokens into the project for enhanced security.
 * Implement authentication and authorization mechanisms, generating and validating tokens for user requests.
-2. Deployment to Heroku:
+2. **Deployment to Heroku:**
 * Deploy the project to Heroku with appropriate settings.
 * Configure environment variables, buildpacks, and ensure compatibility with Heroku's platform for web accessibility.
-3. Connection to External Database (ElephantSQL):
+3. **Connection to External Database (ElephantSQL):**
 * Connect the project to an external database (ElephantSQL) for persistent data storage.
 * Configure database connection settings, create necessary tables or collections, and implement data access logic.
-4. Writing Tests for Code Coverage:
+4. **Writing Tests for Code Coverage:**
 * Write tests to ensure code correctness, reliability, and maintainability.
 * Include unit tests for individual functions/components, integration tests for interactions between different parts, and end-to-end tests.
-5. Codebase Cleanup and Refactoring (In Progress):
+5. **Codebase Cleanup and Refactoring (In Progress):**
 * Note: Due to time constraints, further refinement of the codebase, including cleanup and optimisation, will be deferred to future iterations.
-
 
 All items completed on March. 23th 2024 
 
