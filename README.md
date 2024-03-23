@@ -30,27 +30,27 @@ This project is a Django REST API designed for a social media job application pl
 | Section 1 |
 | --- |
 | [**#1**](https://github.com/Ry-F3/holdu-drf-api/issues/1) As a backend developer, I want to implement CRUD functionality for user profiles, allowing users to create, read, update, and delete their profile information, including details about skills and experience, through API endpoints. |
-| **#2** As a backend developer, I want to implement endpoints for rating and reviewing other users, including logic to calculate average ratings and display them on user profiles. |
-| **#3** As a user, I want to be able to create three types of profiles on the platform: employee, employer, and admin, each with distinct permissions and features, to cater to different user roles and functionalities. |
-| **#4** As a backend developer, I want to implement search and filtering functionality for user profiles based on skills, ratings, and other relevant criteria, optimising queries for performance and scalability. |
-| **#5** As a backend developer, I want to define database models for job listings, including fields for job title, description, required skills, compensation, and other relevant details, implementing CRUD functionality for managing job listings. |
+| [**#2**](https://github.com/Ry-F3/holdu-drf-api/issues/2) As a backend developer, I want to implement endpoints for rating and reviewing other users, including logic to calculate average ratings and display them on user profiles. |
+| [**#3**](https://github.com/Ry-F3/holdu-drf-api/issues/3) As a user, I want to be able to create three types of profiles on the platform: employee, employer, and admin, each with distinct permissions and features, to cater to different user roles and functionalities. |
+| [**#4**](https://github.com/Ry-F3/holdu-drf-api/issues/4) As a backend developer, I want to implement search and filtering functionality for user profiles based on skills, ratings, and other relevant criteria, optimising queries for performance and scalability. |
+| [**#5**](https://github.com/Ry-F3/holdu-drf-api/issues/5) As a backend developer, I want to define database models for job listings, including fields for job title, description, required skills, compensation, and other relevant details, implementing CRUD functionality for managing job listings. |
 
 | Section 2 |
 | --- |
-| **#6** As a backend developer, I want to implement database models and relationships for user connections, allowing users to send and accept connection requests and maintain a network of professional relationships. |
-| **#7** As a backend developer, I want to create API endpoints for managing user connections, including functionalities for sending connection requests, accepting or rejecting requests, and fetching connections' profiles. |
-| **#8** As a backend developer, I want to implement database models and relationships for direct messages, enabling users to send messages to specific connections. |
-| **#9** As a backend developer, I want to create API endpoints for managing direct messages, including functionalities for sending, receiving, and deleting messages. |
-| **#10** As a backend developer, I want to implement notification mechanisms for profile activities, including logic to trigger notifications when users receive connection requests, profile views, or messages. |
+| [**#6**](https://github.com/Ry-F3/holdu-drf-api/issues/6) As a backend developer, I want to implement database models and relationships for user connections, allowing users to send and accept connection requests and maintain a network of professional relationships. |
+| [**#7**](https://github.com/Ry-F3/holdu-drf-api/issues/7) As a backend developer, I want to create API endpoints for managing user connections, including functionalities for sending connection requests, accepting or rejecting requests, and fetching connections' profiles. |
+| [**#8**](https://github.com/Ry-F3/holdu-drf-api/issues/8) As a backend developer, I want to implement database models and relationships for direct messages, enabling users to send messages to specific connections. |
+| [**#9**](https://github.com/Ry-F3/holdu-drf-api/issues/9) As a backend developer, I want to create API endpoints for managing direct messages, including functionalities for sending, receiving, and deleting messages. |
+| [**#10**](https://github.com/Ry-F3/holdu-drf-api/issues/10) As a backend developer, I want to implement notification mechanisms for profile activities, including logic to trigger notifications when users receive connection requests, profile views, or messages. |
 
 | Section 3 |
 | --- |
-| **#11** As a developer working on the Jobs app, I want to implement likes and comments functionalities to work seamlessly with the existing features. This will enhance user engagement and provide a platform for users to interact with each other regarding job listings. |
-| **#12** As a developer, I want to integrate JWT tokens into my project to enhance security and provide authentication and authorization mechanisms for users. This involves generating tokens upon user authentication, validating tokens for each request, and managing token expiration and refreshment. |
-| **#13** As a developer, I want to deploy my project to Heroku with appropriate settings to make it accessible to users on the web. This involves configuring environment variables, setting up the necessary buildpacks, and ensuring compatibility with Heroku's platform. |
-| **#14** As a developer, I want to clean up and refactor my codebase to improve readability, maintainability, and performance. This involves identifying and removing redundant code, restructuring code for better organization, and optimising performance bottlenecks. |
-| **#15** As a developer, I want to connect my project to an external database (ElephantSQL) to store and manage persistent data. This involves configuring database connection settings, creating necessary database tables or collections, and implementing data access logic within the project. |
-| **#16** As a developer, I want to write tests for my code to ensure its correctness, reliability, and maintainability. This involves writing unit tests to cover individual functions or components, integration tests to test interactions between different parts of the system, and end-to-end tests. |
+| [**#11**](https://github.com/Ry-F3/holdu-drf-api/issues/11) As a developer working on the Jobs app, I want to implement likes and comments functionalities to work seamlessly with the existing features. This will enhance user engagement and provide a platform for users to interact with each other regarding job listings. |
+| [**#12**](https://github.com/Ry-F3/holdu-drf-api/issues/12) As a developer, I want to integrate JWT tokens into my project to enhance security and provide authentication and authorization mechanisms for users. This involves generating tokens upon user authentication, validating tokens for each request, and managing token expiration and refreshment. |
+| [**#13**](https://github.com/Ry-F3/holdu-drf-api/issues/13) As a developer, I want to deploy my project to Heroku with appropriate settings to make it accessible to users on the web. This involves configuring environment variables, setting up the necessary buildpacks, and ensuring compatibility with Heroku's platform. |
+| [**#14**](https://github.com/Ry-F3/holdu-drf-api/issues/14) As a developer, I want to clean up and refactor my codebase to improve readability, maintainability, and performance. This involves identifying and removing redundant code, restructuring code for better organization, and optimising performance bottlenecks. |
+| [**#15**](https://github.com/Ry-F3/holdu-drf-api/issues/15) As a developer, I want to connect my project to an external database (ElephantSQL) to store and manage persistent data. This involves configuring database connection settings, creating necessary database tables or collections, and implementing data access logic within the project. |
+| [**#16**](https://github.com/Ry-F3/holdu-drf-api/issues/16) As a developer, I want to write tests for my code to ensure its correctness, reliability, and maintainability. This involves writing unit tests to cover individual functions or components, integration tests to test interactions between different parts of the system, and end-to-end tests. |
 
 ## Agile Methodology
 
