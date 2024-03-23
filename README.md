@@ -29,7 +29,7 @@ This project is a Django REST API designed for a social media job application pl
 
 | Section 1 |
 | --- |
-| **#1** As a backend developer, I want to implement CRUD functionality for user profiles, allowing users to create, read, update, and delete their profile information, including details about skills and experience, through API endpoints. |
+| [**#1**](https://github.com/Ry-F3/holdu-drf-api/issues/1) As a backend developer, I want to implement CRUD functionality for user profiles, allowing users to create, read, update, and delete their profile information, including details about skills and experience, through API endpoints. |
 | **#2** As a backend developer, I want to implement endpoints for rating and reviewing other users, including logic to calculate average ratings and display them on user profiles. |
 | **#3** As a user, I want to be able to create three types of profiles on the platform: employee, employer, and admin, each with distinct permissions and features, to cater to different user roles and functionalities. |
 | **#4** As a backend developer, I want to implement search and filtering functionality for user profiles based on skills, ratings, and other relevant criteria, optimising queries for performance and scalability. |
