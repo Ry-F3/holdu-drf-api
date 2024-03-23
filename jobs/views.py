@@ -21,7 +21,6 @@ from django.utils import timezone
 class JobListView(generics.ListAPIView):
     queryset = Job.objects.all()
     serializer_class = JobSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     filter_backends = [
         filters.OrderingFilter,

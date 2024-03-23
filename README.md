@@ -163,6 +163,8 @@ All items completed on March. 23th 2024
 
 </details>
 
+<hr>
+
 ## Data Models
 
 ### Profile Model
@@ -202,3 +204,46 @@ Please note this model was heavily inspired by [Sonic Explorers API](https://git
 ### Message Model
 * Stores messages within chats, including sender, recipient, timestamp, and content.
 * Ensures uniqueness to prevent duplicate messages within a chat.
+
+
+| Endpoint | HTTP Method | CRUD | View Type | Permissions |
+|----------|-------------|------|-----------|-------------|
+| **Authentication and Profiles** |
+| /api-auth/login/ | GET | N/A | N/A | Public |
+| /api-auth/logout/ | GET | N/A | N/A | Public |
+| /dj-rest-auth/registration/ | POST | N/A | N/A | Public |
+| /dj-rest-auth/login/ | POST | N/A | N/A | Public |
+| /dj-rest-auth/logout/ | POST | N/A | N/A | Authenticated |
+| /profiles/ | GET | Read | List | Authenticated |
+| /profiles/<int:pk>/ | GET | Read | Detail | Authenticated |
+|  | PUT | Update | Detail | Owner |
+| /profiles/<int:pk>/rate-user/ | POST | Create | Detail | Authenticated |
+| /profiles/<int:pk>/ratings/ | GET | Read | Detail | Authenticated |
+| /profiles/<int:pk>/ratings-edit | PUT | Update | Detail | Owner |
+| **Job-related Endpoints** |
+| /jobs/ | GET | Read | List | Public |
+| /jobs/post/ | POST | Create | List | Authenticated |
+| /jobs/post/<int:pk>/ | GET | Read | Detail | Public |
+| /jobs/post/<int:pk>/apply/ | POST | Create | Detail | Authenticated |
+| /jobs/post/<int:pk>/unapply/ | DELETE | Delete | Detail | Owner |
+| /jobs/post/<int:pk>/applicants/ | GET | Read | Detail | Authenticated |
+| /jobs/post/<int:pk>/applicants/<int:applicant_id>/ | GET | Read | Detail | Authenticated |
+| /jobs/post/<int:job_id>/applicants/<int:applicant_id>/response/ | POST | Create | Detail | Authenticated |
+| /jobs/post/<int:job_id>/employees/ | GET | Read | Detail | Authenticated |
+| /jobs/post/<int:job_id>/employees/<int:employee_id>/ | GET | Read | Detail | Authenticated |
+| **Work Experience Endpoints** |
+| /work-experience/ | GET | Read | List | Authenticated |
+| /work-experience/user/<int:user_id>/ | GET | Read | List | Authenticated |
+| /work-experience/create/ | POST | Create | List | Authenticated |
+| /work-experience/create/<int:pk>/ | PUT | Update | Detail | Owner |
+| **Connections Endpoints** |
+| /connections/ | GET | Read | List | Authenticated |
+| /connections/<int:pk>/ | GET | Read | Detail | Authenticated |
+| /accepted-connections/ | GET | Read | List | Authenticated |
+| /pending-connections/ | GET | Read | List | Owner |
+| /pending-connections/<int:pk>/accept/ | POST | Create | Detail | Owner |
+| /pending-connections/<int:pk>/decline/ | POST | Create | Detail | Owner |
+| **Chats Endpoints** |
+| /chats/ | GET | Read | List | Authenticated |
+|  | POST | Create | List | Authenticated |
+| /chats/<int:pk>/ | GET | Read | Detail | Authenticated |
