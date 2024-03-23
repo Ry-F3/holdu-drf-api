@@ -63,7 +63,7 @@ To provide a higher-level overview and categorisation, issues were grouped into 
 Throughout the development process, the project progressed through three sprints. To document the conclusion of each sprint and mark significant [milestones](https://github.com/Ry-F3/holdu-drf-api/milestones?state=closed).
 , milestones were used. These milestones helped in tracking the project's progress over time and provided a clear indication of the completion of specific phases or iterations.
 
-For visual representation and enhanced project management, three Kanban boards were utilised as sprints. The Kanban boards provided a visual overview of the project's progress, this allowed the tracking of tasks as they moved through various stages of completion. The Kanban boards for the project can be accessed via the following link: [Kanban Board](https://github.com/Ry-F3/holdu-drf-api/projects?query=is%3Aopen).
+For visual representation and enhanced project management, three Kanban boards were utilised as sprints. The Kanban boards provided a visual overview of the project's progress, this allowed the tracking of tasks as they moved through various stages of completion. The Kanban boards for the project can be accessed via the following link: [Kanban Boards](https://github.com/Ry-F3/holdu-drf-api/projects?query=is%3Aopen).
 
 <hr>
 
@@ -160,3 +160,44 @@ All items completed on March. 20th 2024
 All items completed on March. 23th 2024 
 
 [Sprint Project Board](https://github.com/users/Ry-F3/projects/5)
+
+
+## Data Models
+
+### Profile Model
+* Stores user profiles with information such as profile type, name, content, image, and average rating.
+* Uses a one-to-one relationship with the Django User model for authentication and related ratings via a many-to-many relationship.
+
+### Rating Model
+* Represents ratings given by users to each other.
+* Includes rating value, optional comment, and relationships with the user who received the rating and the user who gave the rating.
+
+### Notification Model
+* Manages notifications for users, including sender, category, read status, title, content, and associated item ID.
+* Categories include connection requests, new job alerts, accepted applications, message alerts, and new ratings.
+
+Please note this model was heavily inspired by [Sonic Explorers API](https://github.com/nacht-falter/sonic-explorers-api)
+
+### Like Model
+* Tracks likes given by users to specific job listings.
+* Maintains relationships with both users and job listings, along with creation timestamp.
+
+### Comment Model
+* Represents comments made by users on specific job listings.
+* Maintains relationships with both users and job listings, along with creation and update timestamps.
+
+### WorkExperience Model
+* Stores work experiences of users, including job title, company name, dates, skills, and job summary.
+* Enforces uniqueness of job details per user and checks user profile type before saving.
+
+### Connection Model
+* Represents comments made by users on specific job listings.
+* Maintains relationships with both users and job listings, along with creation and update timestamps.
+
+### Chat Model
+* Handles one-to-one chats between users, storing the sender, recipient, and timestamp.
+* Enforces uniqueness to prevent duplicate messages within the chat list.
+
+### Message Model
+* Stores messages within chats, including sender, recipient, timestamp, and content.
+* Ensures uniqueness to prevent duplicate messages within a chat.
