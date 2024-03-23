@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Chat, Message
 from django.contrib.auth.models import User
+from django.contrib.humanize.templatetags.humanize import naturaltime
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -20,12 +21,16 @@ class MessageSerializer(serializers.ModelSerializer):
     """
     sender_name = serializers.SerializerMethodField()
     recipient_name = serializers.SerializerMethodField()
+    timestamp = serializers.SerializerMethodField()
 
     class Meta:
         model = Message
         fields = ['id', 'sender', 'sender_name', 'recipient',
                   'recipient_name', 'timestamp', 'content']
         read_only_fields = ['sender']
+
+    def get_timestamp(self, obj):
+        return naturaltime(obj.timestamp)
 
     def get_sender_name(self, obj):
         return obj.sender.username if obj.sender else None
