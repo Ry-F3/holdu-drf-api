@@ -18,8 +18,10 @@ class JobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
-        fields = ['employer_profile', 'job_listing_id', 'title', 'description', 'location', 'salary', 'closing_date',
-                  'created_at', 'updated_at', 'is_listing_closed', 'positions_available', 'employees',
+        fields = ['employer_profile', 'job_listing_id', 'title',
+                  'description', 'location', 'salary', 'closing_date',
+                  'created_at', 'updated_at', 'is_listing_closed',
+                  'positions_available', 'employees',
                   'applicants', 'like_id', 'is_applied']
 
     def get_is_applied(self, obj):
@@ -28,7 +30,9 @@ class JobSerializer(serializers.ModelSerializer):
             """
             Check if the current user has applied for the job
             """
-            return Application.objects.filter(job=obj, applicant=request.user.profile).exists()
+            return Application.objects.filter(
+                job=obj,
+                applicant=request.user.profile).exists()
         return False
 
     def get_job_listing_id(self, obj):
@@ -52,7 +56,8 @@ class ApplicationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Application
-        fields = ['job', 'employee_status', 'applicant_username']
+        fields = ['job', 'employee_status',
+                  'applicant_username']
 
 
 class ApplicantSerializer(serializers.ModelSerializer):

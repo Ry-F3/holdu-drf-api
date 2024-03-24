@@ -56,15 +56,15 @@ class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_permissions(self):
         if self.request.method in ['PUT', 'PATCH', 'DELETE']:
-            """ 
-            Check if the user is an employer to allow editing and deletion 
+            """
+            Check if the user is an employer to allow editing and deletion
             """
             return [IsEmployerProfile()]
         return super().get_permissions()
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        """ 
+        """
         Remove employees associated with the job
         """
         instance.employees.clear()
@@ -85,7 +85,7 @@ class ApplyJobView(generics.CreateAPIView):
         job_id = self.kwargs.get('pk')
         job = get_object_or_404(Job, id=job_id)
 
-        """ 
+        """
         Check if the listing is closed
         """
         if job.closing_date <= timezone.now() or job.is_listing_closed:
@@ -110,17 +110,21 @@ class ApplyJobView(generics.CreateAPIView):
                 job=job, applicant=applicant_profile).first()
 
             if existing_application:
-                """ 
-                User has already applied, return a response without creating a new application 
                 """
-                serializer = self.get_serializer(existing_application, context={
-                                                 'request': self.request})
+                User has already applied, return a response
+                without creating a new application
+                """
+                serializer = self.get_serializer(
+                    existing_application, context={
+                        'request': self.request})
                 data = serializer.data
                 raise serializers.ValidationError(
-                    {"detail": "You have already applied for this job.", "data": data})
+                    {"detail": "You have already applied for this job.",
+                     "data": data})
 
             """
-            Automatically set the applicant and job based on the current user's profile and the job_id
+            Automatically set the applicant and job based on the
+            current user's profile and the job_id
             """
             serializer.save(applicant=applicant_profile, job=job)
         except Job.DoesNotExist:
@@ -142,17 +146,22 @@ class ApplyJobView(generics.CreateAPIView):
                 job=job, applicant=request.user.profile).exists()
 
             if is_applied:
-                """ 
-                If the user has already applied, return a response indicating the application status
+                """
+                If the user has already applied,
+                return a response indicating the application status
                 """
                 serializer = JobSerializer(
                     job, context={'request': self.request})
                 return Response(serializer.data)
 
-            """ 
-            If the user hasn't applied, return a response with status 400 indicating that they haven't applied 
             """
-            return Response({"detail": "You haven't applied for this job yet."}, status=status.HTTP_400_BAD_REQUEST)
+            If the user hasn't applied,
+            return a response with status 400 indicating
+            that they haven't applied
+            """
+            return Response(
+                {"detail": "You haven't applied for this job yet."},
+                status=status.HTTP_400_BAD_REQUEST)
 
         except Job.DoesNotExist:
             raise Http404("Job not found")
@@ -168,7 +177,7 @@ class UnapplyJobView(generics.DestroyAPIView):
             job_id = self.kwargs.get('pk')
             job = get_object_or_404(Job, id=job_id)
 
-            """ 
+            """
             Check if the listing is closed
             """
             if job.closing_date <= timezone.now() or job.is_listing_closed:
@@ -176,7 +185,8 @@ class UnapplyJobView(generics.DestroyAPIView):
                     {"detail": "This job listing is closed."})
 
             applicant_profile = self.request.user.profile
-            return get_object_or_404(Application, job=job, applicant=applicant_profile)
+            return get_object_or_404(Application, job=job,
+                                     applicant=applicant_profile)
 
         except Job.DoesNotExist:
             raise Http404("Job not found")
@@ -185,21 +195,26 @@ class UnapplyJobView(generics.DestroyAPIView):
         try:
             application = self.get_object()
 
-            if Application.objects.filter(job=application.job, applicant=application.applicant).exists():
-                """ 
+            if Application.objects.filter(
+                    job=application.job,
+                    applicant=application.applicant).exists():
+                """
                 Serialize the application before deleting it
                 """
                 serializer = self.get_serializer(
                     application, context={'request': self.request})
                 data = serializer.data
 
-                """ 
+                """
                 Delete the application
                 """
                 application.delete()
 
-                return Response({"detail": "You have successfully unapplied from this job.", "data": data},
-                                status=status.HTTP_200_OK)
+                return Response(
+                    {"detail":
+                        "You have successfully unapplied from this job.",
+                     "data": data},
+                    status=status.HTTP_200_OK)
             else:
                 raise Http404("You haven't applied for this job.")
         except Job.DoesNotExist:
@@ -208,7 +223,8 @@ class UnapplyJobView(generics.DestroyAPIView):
 
 class ApplicantListView(generics.ListAPIView):
     serializer_class = ApplicantSerializer
-    permission_classes = [permissions.IsAuthenticated, IsEmployerProfile]
+    permission_classes = [permissions.IsAuthenticated,
+                          IsEmployerProfile]
 
     filter_backends = [
         filters.OrderingFilter,
@@ -230,29 +246,39 @@ class ApplicantListView(generics.ListAPIView):
     def get_queryset(self):
         job_id = self.kwargs.get('pk')
         job = get_object_or_404(
-            Job, id=job_id, employer_profile=self.request.user.profile)
+            Job, id=job_id,
+            employer_profile=self.request.user.profile)
 
-        """ Update is_listing_closed field based on current time """
+        """
+        Update is_listing_closed field based on current time
+        """
         if job.closing_date <= timezone.now():
             job.is_listing_closed = True
             job.save()
         else:
-            """ If the listing is not closed, raise a ValidationError """
-            raise ValidationError("The job listing is not closed yet.")
+            """
+            If the listing is not closed, raise a ValidationError
+            """
+            raise ValidationError(
+                "The job listing is not closed yet.")
 
-        """ Return filtered applicants related to the job """
+        """
+        Return filtered applicants related to the job
+        """
         return job.application_set.all()
 
     def list(self, request, *args, **kwargs):
         try:
             return super().list(request, *args, **kwargs)
         except ValidationError as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": str(e)},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class ApplicantDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Application.objects.all()
-    permission_classes = [permissions.IsAuthenticated, IsEmployerProfile]
+    permission_classes = [permissions.IsAuthenticated,
+                          IsEmployerProfile]
 
     def get_serializer_class(self):
         if self.request.method == 'PUT':
@@ -260,7 +286,7 @@ class ApplicantDetailView(generics.RetrieveUpdateDestroyAPIView):
             Custom serializer for updating employer applicant choice
             """
             return UpdateApplicantSerializer
-            """ 
+            """
             Default serializer for retrieving the details
             """
         return ApplicantSerializer
@@ -270,7 +296,8 @@ class ApplicantDetailView(generics.RetrieveUpdateDestroyAPIView):
         applicant_id = self.kwargs.get('applicant_id')
         job = get_object_or_404(
             Job, id=job_id, employer_profile=self.request.user.profile)
-        return get_object_or_404(Application, job=job, applicant_id=applicant_id)
+        return get_object_or_404(Application, job=job,
+                                 applicant_id=applicant_id)
 
     def put(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -298,7 +325,8 @@ class ApplicantDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class EmployeeJobResponseView(generics.UpdateAPIView):
     serializer_class = EmployeeJobResponseSerializer
-    permission_classes = [permissions.IsAuthenticated, IsEmployeeProfile]
+    permission_classes = [permissions.IsAuthenticated,
+                          IsEmployeeProfile]
 
     def update(self, request, *args, **kwargs):
         job_id = self.kwargs.get('job_id')
@@ -308,7 +336,9 @@ class EmployeeJobResponseView(generics.UpdateAPIView):
             Application, job=job, applicant_id=applicant_id)
 
         if application.has_responded:
-            return Response({"error": "You have already responded to this job offer"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": "You have already responded to this job offer"},
+                status=status.HTTP_400_BAD_REQUEST)
 
         serializer = self.get_serializer(
             application, data=request.data, partial=True)
@@ -317,7 +347,8 @@ class EmployeeJobResponseView(generics.UpdateAPIView):
         employee_response = serializer.validated_data.get(
             'employee_acceptance_response')
         if employee_response not in ['accepted', 'rejected']:
-            return Response({"error": "Invalid response"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "Invalid response"},
+                            status=status.HTTP_400_BAD_REQUEST)
 
         application.employee_acceptance_response = employee_response
         application.has_responded = True
@@ -361,7 +392,7 @@ class JobEmployeesDetail(generics.RetrieveDestroyAPIView):
         profile = get_object_or_404(Profile, id=employee_id)
 
         if profile in job.employees.all():
-            """ 
+            """
             Remove the employee from the job
             """
             job.employees.remove(profile)
@@ -369,6 +400,12 @@ class JobEmployeesDetail(generics.RetrieveDestroyAPIView):
             Remove the employee from job applications
             """
             Application.objects.filter(job=job, applicant=profile).delete()
-            return Response({"message": "Employee has been removed from the job successfully"}, status=status.HTTP_204_NO_CONTENT)
+            return Response(
+                {
+                    "message": "Employee has been removed from the job"
+                },
+                status=status.HTTP_204_NO_CONTENT)
         else:
-            return Response({"error": "The employee is not assigned to this job"}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "The employee is not assigned to this job"},
+                status=status.HTTP_404_NOT_FOUND)

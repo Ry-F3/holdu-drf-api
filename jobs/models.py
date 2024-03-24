@@ -10,7 +10,9 @@ class Job(models.Model):
     salary = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True)
     employer_profile = models.ForeignKey(
-        'profiles.Profile', on_delete=models.CASCADE, related_name='jobs_created', limit_choices_to={'profile_type': 'employer'}
+        'profiles.Profile', on_delete=models.CASCADE,
+        related_name='jobs_created',
+        limit_choices_to={'profile_type': 'employer'}
     )
     employees = models.ManyToManyField(
         'profiles.Profile', related_name='assigned_jobs',
@@ -31,7 +33,8 @@ class Job(models.Model):
     Fields for managing applicants
     """
     applicants = models.ManyToManyField(
-        Profile, through='Application', related_name='job_applications', blank=True
+        Profile, through='Application',
+        related_name='job_applications', blank=True
     )
     is_listing_closed = models.BooleanField(default=False)
 
@@ -69,7 +72,8 @@ class Application(models.Model):
     has_responded = models.BooleanField(default=False)
 
     employee_acceptance_response = models.CharField(
-        max_length=20, choices=EMPLOYEE_ACCEPTANCE_CHOICES, null=True, blank=True
+        max_length=20,
+        choices=EMPLOYEE_ACCEPTANCE_CHOICES, null=True, blank=True
     )
 
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
@@ -81,7 +85,8 @@ class Application(models.Model):
         max_length=20, choices=EMPLOYEE_STATUS_CHOICES, default='applied'
     )
     employer_applicant_choice = models.CharField(
-        max_length=20, choices=EMPLOYER_APPLICANT_STATUS_CHOICES, default='pending'
+        max_length=20,
+        choices=EMPLOYER_APPLICANT_STATUS_CHOICES, default='pending'
     )
 
     class Meta:
