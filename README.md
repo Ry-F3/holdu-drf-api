@@ -3,7 +3,7 @@
 
 This project is a Django REST API designed for a social media job application platform tailored specifically for the health and social sector. Similar to LinkedIn, it facilitates interactions between employers and employees, with a focus on seamless job posting, application management, and offer processing.
 
-*The deployed Drf Api link can be found here:* ![link](https://holdu-c5c853e4534e.herokuapp.com/)
+*The deployed Drf Api link can be found here:* [link](https://holdu-c5c853e4534e.herokuapp.com/)
 
 ## Key Features:
 
@@ -518,7 +518,7 @@ All files underwent validation using a Python linter, specifically [PEP 8](https
 
 <hr>
 
-The project was deployed to [Heroku](https://heroku.com). A live version of the API can be found ![here](https://holdu-c5c853e4534e.herokuapp.com/).
+The project was deployed to [Heroku](https://heroku.com). A live version of the API can be found [here](https://holdu-c5c853e4534e.herokuapp.com/).
 
 # Deployment Steps
 
@@ -542,13 +542,13 @@ To deploy the project, follow these instructions:
 
     | Key | Value | 
     |---|---|
-    | ALLOWED_HOSTS | <your deployed Heroku API app URL> * |
-    | CLIENT_ORIGIN_DEV | <your development environment URL> ** |
-    | CLIENT_ORIGIN | <your client URL> |
-    | CLOUDINARY_URL | <Your Cloudinary URL> | 
-    | DATABASE_URL | <Your database URL> | 
+    | ALLOWED_HOSTS | \<your deployed Heroku API app URL\>  |
+    | CLIENT_ORIGIN_DEV | \<your development environment URL\>  |
+    | CLIENT_ORIGIN | \<your client URL\> |
+    | CLOUDINARY_URL | \<Your Cloudinary URL\> | 
+    | DATABASE_URL | \<Your database URL\> | 
     | DISABLE_COLLECTSTATIC | 1 |
-    | SECRET_KEY | <a random string> |
+    | SECRET_KEY | \<a random string\> |
 
     \* Paste the heroku app URL without 'https://' or a trailing slash!
 
