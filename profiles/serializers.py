@@ -7,14 +7,15 @@ from django.contrib.auth.models import User
 
 class BaseProfileSerializer(serializers.ModelSerializer):
     """
-    Extend the base profile serializer to divide the 
+    Extend the base profile serializer to divide the
     application into three profile types.
     """
     owner_username = serializers.ReadOnlyField(source='owner.username')
     owner_id = serializers.ReadOnlyField(source='owner.id')
     is_owner = serializers.SerializerMethodField()
     profile_type_display = serializers.ChoiceField(
-        choices=Profile.PROFILE_CHOICES, source='get_profile_type_display', read_only=True)
+        choices=Profile.PROFILE_CHOICES,
+        source='get_profile_type_display', read_only=True)
     average_rating = serializers.ReadOnlyField()
     ratings = serializers.SerializerMethodField()
     connections_id = serializers.SerializerMethodField(read_only=True)
@@ -31,7 +32,8 @@ class BaseProfileSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
         if user.is_authenticated:
             connections = obj.owner.user_connected.filter(accepted=True)
-            return [connection.connection_id for connection in connections]
+            return [connection.connection_id
+                    for connection in connections]
         return None
 
     """
@@ -46,20 +48,23 @@ class BaseProfileSerializer(serializers.ModelSerializer):
         fields = ['id', 'owner_username',  'owner_id', 'created_at',
                   'updated_at', 'name', 'content', 'image', 'is_owner',
                   'average_rating', 'ratings',
-                  'connections_count', 'connections_id', 'likes_count', 'profile_type_display']
+                  'connections_count', 'connections_id',
+                  'likes_count', 'profile_type_display']
 
 
 class EmployeeProfileSerializer(BaseProfileSerializer):
     class Meta(BaseProfileSerializer.Meta):
         fields = [
-            field for field in BaseProfileSerializer.Meta.fields if field != 'connections_id'
+            field for field in BaseProfileSerializer.Meta.fields
+            if field != 'connections_id'
         ]
 
 
 class EmployerProfileSerializer(BaseProfileSerializer):
     class Meta(BaseProfileSerializer.Meta):
         fields = [
-            field for field in BaseProfileSerializer.Meta.fields if field != 'connections_id'
+            field for field in BaseProfileSerializer.Meta.fields
+            if field != 'connections_id'
         ]
 
 
@@ -98,14 +103,18 @@ class RatingSerializer(serializers.ModelSerializer):
         if obj.created_by:
             """ Get the created_by profile data """
             profile = obj.created_by.profile
-            """ Check the profile_type to determine the appropriate serializer """
+            """
+            Check the profile_type to determine the appropriate serializer
+            """
             if profile.profile_type == 'employee':
                 profile_serializer = EmployeeProfileSerializer(profile)
             elif profile.profile_type == 'employer':
                 profile_serializer = EmployerProfileSerializer(profile)
             else:
                 return None
-            """ Retrieve the serialized data including the image field """
+            """
+            Retrieve the serialized data including the image field
+            """
             profile_data = profile_serializer.data
             return profile_data
         return None

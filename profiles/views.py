@@ -53,14 +53,20 @@ class ProfilesView(generics.ListAPIView):
     ]
 
     def get(self, request, *args, **kwargs):
-        """ Get the queryset based on search and ordering """
+        """
+        Get the queryset based on search and ordering
+        """
         queryset = self.filter_queryset(self.get_queryset())
 
-        """ Serialize the queryset using the serializer class """
+        """
+        Serialize the queryset using the serializer class
+        """
         serializer = self.serializer_class(
             queryset, many=True, context={'request': request})
 
-        """ Return the serialized data in JSON response """
+        """
+        Return the serialized data in JSON response
+        """
         return Response(serializer.data)
 
     def get_serializer_context(self):
@@ -131,7 +137,9 @@ class RateUserView(CreateAPIView):
         profile.average_rating = average_rating
         profile.save()
 
-        return Response({"message": "Rating submitted successfully."}, status=status.HTTP_201_CREATED)
+        return Response(
+            {"message": "Rating submitted successfully."},
+            status=status.HTTP_201_CREATED)
 
 
 class ProfileRatingAPIView(generics.ListAPIView):
@@ -182,11 +190,12 @@ class RatingEditAPIView(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         """
-        After updating the rating, recalculate the average rating of the associated profile 
+        After updating the rating, recalculate the average
+        rating of the associated profile
         """
         try:
             """
-            Relate to the ForeignKey field is named 'rate_user' 
+            Relate to the ForeignKey field is named 'rate_user'
             """
             rate_user = instance.rate_user
 
@@ -194,7 +203,8 @@ class RatingEditAPIView(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
         except (AttributeError, Profile.DoesNotExist):
             raise Http404("Associated profile not found for this rating.")
         self.update_average_rating(profile)
-        return Response({'message': 'Rating updated successfully'}, status=status.HTTP_200_OK)
+        return Response({'message': 'Rating updated successfully'},
+                        status=status.HTTP_200_OK)
 
     def perform_update(self, serializer):
         serializer.save()
@@ -227,4 +237,5 @@ class RatingEditAPIView(RetrieveAPIView, UpdateAPIView, DestroyAPIView):
         else:
             profile.average_rating = 0.0
             profile.save()
-        return Response({'message': 'Rating deleted successfully'}, status=status.HTTP_204_NO_CONTENT)
+        return Response({'message': 'Rating deleted successfully'},
+                        status=status.HTTP_204_NO_CONTENT)

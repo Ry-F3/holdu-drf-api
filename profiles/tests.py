@@ -37,7 +37,8 @@ class ProfileTypeTest(TestCase):
         Create an employee user
         """
         employee_user = User.objects.create_user(
-            username='employee', email='employee@example.com', password='employee'
+            username='employee', email='employee@example.com',
+            password='employee'
         )
 
         """
@@ -48,7 +49,7 @@ class ProfileTypeTest(TestCase):
         )
 
         """
-        Retrieve the profile associated with the employee user 
+        Retrieve the profile associated with the employee user
         """
         employee_profile = Profile.objects.get(owner=employee_user)
 
@@ -62,10 +63,12 @@ class ProfileTypeTest(TestCase):
         Create an employer user
         """
         employer_user = User.objects.create_user(
-            username='employer', email='employer@example.com', password='employer'
+            username='employer',
+            email='employer@example.com',
+            password='employer'
         )
 
-        """ 
+        """
         Create a profile for the employer user with profile type 'employer'
         """
         employer_profile = Profile.objects.create(
@@ -73,11 +76,11 @@ class ProfileTypeTest(TestCase):
         )
 
         """
-        Retrieve the profile associated with the employer user 
+        Retrieve the profile associated with the employer user
         """
         employer_profile = Profile.objects.get(owner=employer_user)
 
-        """ 
+        """
         Assert that the profile type is correctly assigned as 'employer'
         """
         self.assertEqual(employer_profile.profile_type, 'employer')
@@ -85,7 +88,7 @@ class ProfileTypeTest(TestCase):
 
 class RatingTest(TestCase):
     def setUp(self):
-        """ 
+        """
         Create two users
         """
         self.user1 = User.objects.create_user(
@@ -110,7 +113,7 @@ class RatingTest(TestCase):
         """
         retrieved_rating = Rating.objects.get(id=rating.id)
 
-        """ 
+        """
         Check if the rating fields match the provided values
         """
         self.assertEqual(retrieved_rating.rating, 4)
@@ -118,7 +121,8 @@ class RatingTest(TestCase):
         self.assertEqual(retrieved_rating.rate_user, self.user1)
         self.assertEqual(retrieved_rating.created_by, self.user2)
         self.assertAlmostEqual(retrieved_rating.created_at,
-                               timezone.now(), delta=timezone.timedelta(seconds=1))
+                               timezone.now(),
+                               delta=timezone.timedelta(seconds=1))
 
     def test_rating_str_method(self):
         """
@@ -133,7 +137,7 @@ class RatingTest(TestCase):
         )
 
         """
-        Check if the __str__ method returns the expected string representation 
+        Check if the __str__ method returns the expected string representation
         """
         expected_str = f"Rating: {rating.rating}"
         self.assertEqual(str(rating), expected_str)
