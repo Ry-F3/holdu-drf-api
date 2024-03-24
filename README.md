@@ -302,44 +302,38 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 ### Manual Testing
 
-<hr>
-
-
-
-### Automated Testing
-
-<hr>
-
 #### Section 1: Job Management
 
 | #   | Endpoint                                                | Description                                                  | Method | Expected Outcome                                       |
 | --- | ------------------------------------------------------- | ------------------------------------------------------------ | ------ | ------------------------------------------------------ |
-| 1   | `/jobs/`                                                | List all jobs                                                | GET    | List of all available jobs                             |
-| 2   | `/jobs/post/`                                           | Post a new job                                               | POST   | New job created successfully                          |
-| 3   | `/jobs/post/<int:pk>/`                                  | View details of a specific job                               | GET    | Details of the specified job                           |
-| 4   | `/jobs/post/<int:pk>/apply/`                            | Apply for a specific job                                     | POST   | User successfully applied for the specified job       |
-| 5   | `/jobs/post/<int:pk>/unapply/`                          | Remove application for a specific job                        | POST   | Application for the specified job removed successfully |
-| 6   | `/jobs/post/<int:pk>/applicants/`                       | List all applicants for a specific job (when listing is closed) | GET    | List of all applicants for the specified job           |
-| 7   | `/jobs/post/<int:pk>/applicants/<int:applicant_id>/`    | View details of a specific applicant for a specific job     | GET    | Details of the specified applicant for the job         |
-| 8   | `/jobs/post/<int:job_id>/applicants/<int:applicant_id>/response/` | Respond to a job application                         | PUT    | Response submitted successfully                        |
-| 9   | `/jobs/post/<int:job_id>/employees/`                    | List all employees for a specific job                        | GET    | List of all employees for the specified job            |
-| 10  | `/jobs/post/<int:job_id>/employees/<int:employee_id>/`   | View details of a specific employee for a specific job      | GET    | Details of the specified employee for the job          |
+| [1](#endpoint-1)    | `/jobs/`                                                | List all jobs                                                | GET    | List of all available jobs                             |
+| [2](#endpoint-2)    | `/jobs/post/`                                           | Post a new job                                               | POST   | New job created successfully                          |
+| [3](#endpoint-3)   | `/jobs/post/<int:pk>/`                                  | View details of a specific job                               | GET    | Details of the specified job                           |
+| [4](#endpoint-4)   | `/jobs/post/<int:pk>/apply/`                            | Apply for a specific job                                     | POST   | User successfully applied for the specified job       |
+| [5](#endpoint-5)      | `/jobs/post/<int:pk>/unapply/`                          | Remove application for a specific job                        | POST   | Application for the specified job removed successfully |
+| [6](#endpoint-6)    | `/jobs/post/<int:pk>/applicants/`                       | List all applicants for a specific job (when listing is closed) | GET    | List of all applicants for the specified job           |
+| [7](#endpoint-7)   | `/jobs/post/<int:pk>/applicants/<int:applicant_id>/`    | View details of a specific applicant for a specific job     | GET    | Details of the specified applicant for the job         |
+| [8](#endpoint-8)  | `/jobs/post/<int:job_id>/applicants/<int:applicant_id>/response/` | Respond to a job application                         | PUT    | Response submitted successfully                        |
+| [9](#endpoint-9)   | `/jobs/post/<int:job_id>/employees/`                    | List all employees for a specific job                        | GET    | List of all employees for the specified job            |
+| [10](#endpoint-10)  | `/jobs/post/<int:job_id>/employees/<int:employee_id>/`   | View details of a specific employee for a specific job      | GET    | Details of the specified employee for the job          |
 
 <hr>
 
 <details>
 
-<summary> [1] screenshot</summary>
+<summary> <a name="endpoint-1">1</a> screenshot</summary>
 
 <hr>
 
-![]()
-
+![jobs-list](docs/images/manual-jobs.png)
 
 </details>
 
 <hr>
 
+### Automated Testing
+
+<hr>
 
 #### Unit and Intergration Testing
 
