@@ -1,5 +1,5 @@
 # Holdu
-## Django REST API for Health and Social Sector: Job Application Platform
+## Django REST API: Job Application Platform
 
 This project is a Django REST API designed for a social media job application platform tailored specifically for the health and social sector. Similar to LinkedIn, it facilitates interactions between employers and employees, with a focus on seamless job posting, application management, and offer processing.
 
