@@ -56,7 +56,7 @@ This project is a Django REST API designed for a social media job application pl
 
 GitHub Issues were utilised extensively throughout the development process of the project. These issues were tracked using the following link: [GitHub Issues](https://github.com/Ry-F3/holdu-drf-api/issues?q=is%3Aissue+is%3Aclosed).
 
-Each user story, representing a feature or task, was captured as a GitHub issue and categorised accordingly. To ensure clarity and organisation, labels were employed. These labels can be viewed at: [Labels](https://github.com/Ry-F3/holdu-drf-api/labels). Labels were used to categorise issues based on workflow, enhancements, or new features.
+Each developer story, representing a feature or task, was captured as a GitHub issue and categorised accordingly. To ensure clarity and organisation, labels were employed. These labels can be viewed at: [Labels](https://github.com/Ry-F3/holdu-drf-api/labels). Labels were used to categorise issues based on workflow, enhancements, or new features.
 
 To provide a higher-level overview and categorisation, issues were grouped into six epics. These epics served to distinguish between different aspects or modules of the project, making it easier to manage and prioritise work. Priority labels were applied to issues to indicate their importance and urgency, aiding in the allocation of resources and prioritisation of tasks.
 
@@ -93,7 +93,7 @@ For visual representation and enhanced project management, three Kanban boards w
 
 All items completed on March. 15th 2024
 
-[Sprint Project Board](https://github.com/users/Ry-F3/projects/3)
+[Sprint Kanban Board](https://github.com/users/Ry-F3/projects/3)
 
 </details>
 
@@ -128,7 +128,7 @@ All items completed on March. 15th 2024
 
 All items completed on March. 20th 2024
 
-[Sprint Project Board](https://github.com/users/Ry-F3/projects/4)
+[Sprint Kanban Board](https://github.com/users/Ry-F3/projects/4)
 
 </details>
 
@@ -159,13 +159,23 @@ All items completed on March. 20th 2024
 
 All items completed on March. 23th 2024 
 
-[Sprint Project Board](https://github.com/users/Ry-F3/projects/5)
+[Sprint Kanban Board](https://github.com/users/Ry-F3/projects/5)
 
 </details>
 
 <hr>
 
 ## Data Models
+
+<hr>
+
+### Database Schema
+
+![schema](docs/images/database-holdu-schema.png)
+
+*Please note: that the notification model has been omitted intentionally to maintain focus on the main features of the project and to prevent overloading the schema.*
+
+<hr>
 
 ### Profile Model
 * Stores user profiles with information such as profile type, name, content, image, and average rating.
@@ -277,10 +287,13 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 - [GitHub Issues](https://docs.github.com/en/issues): Utilised for Agile methodology, assigning user stories to issues and organizing them with labels.
 - [GitHub Projects](https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects): Employed for Agile sprint planning and task tracking. 
 - [GitHub CLI](https://cli.github.com/): Used for creating issues directly from the terminal.
-- [Git](https://git-scm.com/): Utilised for version control, enabling commits and pushes to GitHub from the command line.
+- [Gitpod](https://www.gitpod.io/): IDE utilised for version control, enabling commits and pushes to GitHub from the command line.
 - [Heroku](https://heroku.com/): Selected for deploying the API.
 - [ElephantSQL](https://www.elephantsql.com/): Chosen for the project's PostgreSQL database.
 - [Cloudinary](https://cloudinary.com/): Employed for storing media files.
 - [Lucidchart](https://www.lucidchart.com/): Utilised to create the entity relationship diagram  for the project's data models.
+
+
+## Testing
 
 
