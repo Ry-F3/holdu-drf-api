@@ -174,7 +174,7 @@ All items completed on March. 23th 2024
 
 ![schema](docs/images/database-holdu-schema.png)
 
-*Please note: that the notification model has been omitted intentionally to maintain focus on the main features of the project and to prevent overloading the schema.*
+*Please note: that the notification model and some fields have been omitted intentionally to maintain focus on the main features of the project and to prevent overloading the schema.*
 
 <hr>
 
