@@ -17,8 +17,9 @@ class CommentTests(TestCase):
         self.user = User.objects.create_user(
             username='testuser', password='testpassword')
         self.client.force_authenticate(user=self.user)
-        """ 
-        Create a Profile instance for the user with profile_type set to 'employer'
+        """
+        Create a Profile instance for the user
+        with profile_type set to 'employer'
         """
         profile = Profile.objects.create(
             owner=self.user, profile_type='employer')
@@ -29,7 +30,8 @@ class CommentTests(TestCase):
             title="Test Job",
             description="Test Description",
             closing_date=timezone.now() + timezone.timedelta(days=7),
-            employer_profile=profile  # Associate the job with the employer profile
+            employer_profile=profile
+            # Associate the job with the employer profile
         )
 
     def test_create_comment(self):
