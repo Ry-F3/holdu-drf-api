@@ -520,7 +520,7 @@ All files underwent validation using a Python linter, specifically [PEP 8](https
 
 The project was deployed to [Heroku](https://heroku.com). A live version of the API can be found [here](https://holdu-c5c853e4534e.herokuapp.com/).
 
-# Deployment Steps
+#### Deployment Steps
 
 <hr>
 
