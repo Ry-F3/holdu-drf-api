@@ -302,7 +302,7 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 ### Manual Testing
 
-#### Section 1: Job Management
+#### Section 1: jobs application
 
 | #   | Endpoint                                                | Description                                                  | Method | Expected Outcome                                       |
 | --- | ------------------------------------------------------- | ------------------------------------------------------------ | ------ | ------------------------------------------------------ |
@@ -330,6 +330,85 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 </details>
 
 <hr>
+
+<details>
+
+<summary> <a name="endpoint-2">2</a> screenshot</summary>
+
+<hr>
+
+![jobs-post](docs/images/manual-jobs-post.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary> <a name="endpoint-3">3</a> screenshot</summary>
+
+<hr>
+
+![jobs-post-int-apply](docs/images/manual-jobs-post-int.png)
+
+</details>
+
+<hr>
+
+
+<details>
+
+<summary> <a name="endpoint-4">4</a> screenshot</summary>
+
+<hr>
+
+#### Pre:
+
+![jobs-post-int-apply](docs/images/manual-jobs-post-int-apply-pre.png)
+
+#### Post: 
+
+![jobs-post-int-apply-post](docs/images/manual-jobs-post-int-apply-post.png)
+
+#### Data updated:
+
+![jobs-post-int-apply-post](docs/images/manual-jobs-post-int-apply-post-data.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary> <a name="endpoint-5">5</a> screenshot</summary>
+
+<hr>
+
+![jobs-post-int-unapply](docs/images/manual-jobs-post-int-unapply.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary> <a name="endpoint-6">6</a> screenshot</summary>
+
+<hr>
+
+![jobs-post-int-applicants](docs/images/manual-jobs-post-int-applicants.png)
+
+</details>
+
+<hr>
+
+
+
+
+
+
+
+
 
 ### Automated Testing
 
