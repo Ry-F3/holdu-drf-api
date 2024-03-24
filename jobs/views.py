@@ -331,9 +331,15 @@ class EmployeeJobResponseView(generics.UpdateAPIView):
     def update(self, request, *args, **kwargs):
         job_id = self.kwargs.get('job_id')
         applicant_id = self.kwargs.get('applicant_id')
+
         job = get_object_or_404(Job, id=job_id)
         application = get_object_or_404(
             Application, job=job, applicant_id=applicant_id)
+
+        # Check if the authenticated user is the same as the applicant
+        if request.user.id != application.applicant.owner_id:
+            return Response({"error": "Unauthorized access"},
+                            status=status.HTTP_401_UNAUTHORIZED)
 
         if application.has_responded:
             return Response(
