@@ -25,7 +25,7 @@ This project is a Django REST API designed for a social media job application pl
 
 * **Showcasing Experience:** Users can showcase their professional experience and qualifications, providing comprehensive profiles for potential employers to review.
 
-* **Interacting with Job Listings:** Users can engage with job listings by liking, commenting, and sharing, facilitating community interaction and engagement.
+* **Interacting with Job Listings:** Users can engage with job listings by liking and commenting facilitating community interaction and engagement.
 
 ## Developer User Stories 
 
