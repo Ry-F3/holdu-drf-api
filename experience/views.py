@@ -40,7 +40,8 @@ class WorkExperienceUserView(ListAPIView):
     """
     Endpoint: GET /work-experience/user/<user_id>/
     Permission: Authenticated users only.
-    Response: List of work experiences belonging to the specified user.
+    Response: List of work experiences belonging
+    to the specified user.
     """
 
     serializer_class = WorkExperienceSerializer
@@ -71,9 +72,13 @@ class WorkExperienceCreateView(generics.CreateAPIView):
         try:
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
-            return Response({"message": "Work experience created successfully.", "data": serializer.data}, status=status.HTTP_201_CREATED, headers=headers)
+            return Response(
+                {"message": "Work experience created successfully.",
+                    "data": serializer.data},
+                status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e)},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def perform_create(self, serializer):
         """Save new work experience."""
@@ -82,7 +87,9 @@ class WorkExperienceCreateView(generics.CreateAPIView):
 
 class WorkExperienceEditView(generics.RetrieveUpdateDestroyAPIView):
     """
-    Endpoint: GET /work-experience/create/{id}/, PUT/PATCH /work-experience/create/{id}/, DELETE /work-experience/create/{id}/
+    Endpoint: GET /work-experience/create/{id}/,
+    PUT/PATCH /work-experience/create/{id}/,
+    DELETE /work-experience/create/{id}/
     Permission: Authenticated users only, owner.
     Response: Retrieve/Update/Delete work experience.
     """
@@ -95,14 +102,21 @@ class WorkExperienceEditView(generics.RetrieveUpdateDestroyAPIView):
         """Update work experience."""
         try:
             instance = serializer.save()
-            return Response({"message": "Work experience updated successfully.", "data": WorkExperienceSerializer(instance).data}, status=status.HTTP_200_OK)
+            return Response(
+                {"message": "Work experience updated successfully.",
+                 "data": WorkExperienceSerializer(instance).data},
+                status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e)},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def perform_destroy(self, instance):
         """Delete work experience."""
         try:
             instance.delete()
-            return Response({"message": "Work experience deleted successfully."}, status=status.HTTP_204_NO_CONTENT)
+            return Response(
+                {"message": "Work experience deleted successfully."},
+                status=status.HTTP_204_NO_CONTENT)
         except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"error": str(e)},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)

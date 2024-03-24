@@ -16,15 +16,15 @@ class WorkExperienceTests(TestCase):
         self.user = User.objects.create_user(
             username='testuser', password='testpassword')
 
-        """ 
-        Create Profile for the user 
+        """
+        Create Profile for the user
         """
         profile = Profile.objects.create(
             owner=self.user, profile_type='employee')
 
         self.client.force_authenticate(user=self.user)
 
-        """ 
+        """
         Create work experiences
         """
         self.work_experience1 = WorkExperience.objects.create(

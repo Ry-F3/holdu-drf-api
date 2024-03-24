@@ -15,7 +15,8 @@ class WorkExperience(models.Model):
 
     class Meta:
         unique_together = ['job_title', 'company_name',
-                           'start_date', 'end_date', 'skills', 'job_summary', 'owner']
+                           'start_date', 'end_date',
+                           'skills', 'job_summary', 'owner']
         ordering = ['-start_date']
 
     def __str__(self):
