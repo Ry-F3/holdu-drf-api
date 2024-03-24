@@ -316,7 +316,7 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <hr>
 
-![test-jobs](docs/images/testing-jobs.png)
+![test-jobs](docs/images/test-jobs.png)
 
 </details>
 
@@ -333,3 +333,80 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 </details>
 
 <hr>
+
+<details>
+
+<summary>Test connections</summary>
+
+<hr>
+
+![test-connections](docs/images/test-connections.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary>Test chats</summary>
+
+<hr>
+
+![test-chats](docs/images/test-chats.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary>Test comments</summary>
+
+<hr>
+
+![test-comments](docs/images/test-comments.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary>Test likes</summary>
+
+<hr>
+
+![test-likes](docs/images/test-jobs.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary>Test notifications</summary>
+
+<hr>
+
+![test-notifications](docs/images/test-notifications.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary>Test all</summary>
+
+<hr>
+
+![test-all](docs/images/test-all.png)
+
+<hr>
+
+![test-all-2](docs/images/test-all-2.png)
+
+</details>
+
+<hr>
+
