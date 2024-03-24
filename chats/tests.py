@@ -56,13 +56,14 @@ class ChatTests(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-        """ 
+        """
         Test creating a chat with the same user as sender and recipient
         """
         data = {'recipient': self.user1.pk, 'content': 'Hello, user1!'}
         response = self.client.post(url, data, format='json')
-        """ 
-        Chat is still valid as most social media platforms allow users to send messages to themselves
+        """
+        Chat is still valid as most social media platforms
+        allow users to send messages to themselves
         """
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 

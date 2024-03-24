@@ -44,7 +44,8 @@ class ChatSerializer(serializers.ModelSerializer):
     Serializer for handling chat instances.
 
     Methods:
-    - create(validated_data): Creates a new chat instance based on the validated data received from the view.
+    - create(validated_data): Creates a new chat instance
+    based on the validated data received from the view.
     """
     chat_id = serializers.IntegerField(source='id', read_only=True)
     sender_name = serializers.SerializerMethodField()
@@ -67,48 +68,68 @@ class ChatSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """
         Create a new chat instance or add a message to an existing chat.
-
-        This method handles the creation of a new chat instance or the addition of a message to an existing chat
-        based on the validated data received from the view. If a chat already exists between the sender and recipient,
-        the message is added to that chat. If no chat exists, a new chat instance is created along with a message.
+        This method handles the creation of a new chat instance or
+        the addition of a message to an existing chat
+        based on the validated data received from the view.
+        If a chat already exists between the sender and recipient,
+        the message is added to that chat. If no chat exists,
+        a new chat instance is created along with a message.
         """
         content = validated_data.pop('content')
         recipient = validated_data.pop('recipient')
-        sender = self.context['request'].user  # Get authenticated user
+        sender = self.context['request'].user
+        # Get authenticated user
 
-        """ Check if there's an existing chat between sender and recipient """
+        """ Check if there's an existing chat between
+        sender and recipient
+        """
         existing_chat = Chat.objects.filter(
             sender=sender, recipient=recipient).first()
 
         if existing_chat:
-            """ Check if the message already exists within the chat """
+            """ Check if the message already exists
+            within the chat
+            """
             if existing_chat.messages.filter(content=content).exists():
                 raise serializers.ValidationError(
                     "Message already exists in the chat.")
 
-            """ If a chat already exists, create a new message within it """
+            """ If a chat already exists, create a new
+            message within it
+            """
             message = Message.objects.create(
-                chat=existing_chat, sender=sender, recipient=recipient, content=content)
+                chat=existing_chat, sender=sender,
+                recipient=recipient, content=content)
             return existing_chat
         else:
-            """ If no chat exists, check if the recipient has initiated a chat """
+            """ If no chat exists, check if the recipient
+            has initiated a chat
+            """
             existing_chat = Chat.objects.filter(
                 sender=recipient, recipient=sender).first()
 
             if existing_chat:
-                """ Check if the message already exists within the chat """
+                """ Check if the message already exists
+                within the chat
+                """
                 if existing_chat.messages.filter(content=content).exists():
                     raise serializers.ValidationError(
                         "Message already exists in the chat.")
 
-                """ If the recipient initiated the chat, add the message to that chat """
+                """ If the recipient initiated the chat,
+                add the message to that chat
+                """
                 message = Message.objects.create(
-                    chat=existing_chat, sender=sender, recipient=recipient, content=content)
+                    chat=existing_chat, sender=sender,
+                    recipient=recipient, content=content)
                 return existing_chat
             else:
-                """ If no chat exists, create a new chat and message """
+                """ If no chat exists, create a new
+                chat and message
+                """
                 chat = Chat.objects.create(
                     sender=sender, recipient=recipient, **validated_data)
                 message = Message.objects.create(
-                    chat=chat, sender=sender, recipient=recipient, content=content)
+                    chat=chat, sender=sender,
+                    recipient=recipient, content=content)
                 return chat
