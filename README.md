@@ -3,7 +3,7 @@
 
 This project is a Django REST API designed for a social media job application platform tailored specifically for the health and social sector. Similar to LinkedIn, it facilitates interactions between employers and employees, with a focus on seamless job posting, application management, and offer processing.
 
-*The deployed Drf Api link can be found here:* [link](https://holdu-c5c853e4534e.herokuapp.com/)
+*The deployed API link can be found here: [link](https://holdu-c5c853e4534e.herokuapp.com/)*
 
 ## Key Features:
 
