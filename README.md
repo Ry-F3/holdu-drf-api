@@ -189,7 +189,7 @@ All items completed on March. 23th 2024
 * Manages notifications for users, including sender, category, read status, title, content, and associated item ID.
 * Categories include connection requests, new job alerts, accepted applications, message alerts, and new ratings.
 
-Please note this model was heavily inspired by [Sonic Explorers API](https://github.com/nacht-falter/sonic-explorers-api)
+*Please note this model was heavily inspired by [Sonic Explorers API](https://github.com/nacht-falter/sonic-explorers-api)*
 
 ### Like Model
 * Tracks likes given by users to specific job listings.
@@ -296,4 +296,40 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 ## Testing
 
+<hr>
 
+<details>
+
+<summary>Test profiles</summary>
+
+<hr>
+
+![test-profiles](docs/images/testing-profiles.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary>Test jobs</summary>
+
+<hr>
+
+![test-jobs](docs/images/testing-jobs.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary>Test experience</summary>
+
+<hr>
+
+![test-experience](docs/images/testing-experience.png)
+
+</details>
+
+<hr>
