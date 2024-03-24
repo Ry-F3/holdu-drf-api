@@ -37,7 +37,8 @@ def connection_notification(sender, instance, created, **kwargs):
                 "sender": instance.owner,
                 "title": "You have a new Connection!",
                 "category": 'connection_accepted',
-                "content": f'You are now connected to {instance.connection.username}.',
+                "content":
+                    f'You are now connected to {instance.connection.username}.',
                 "item_id": instance.id
             }
             create_notification(**owner_notification_data)
@@ -45,9 +46,11 @@ def connection_notification(sender, instance, created, **kwargs):
             sender_notification_data = {
                 "owner": instance.connection,
                 "sender": instance.owner,
-                "title": f"Connection request accepted by {instance.owner.username}!",
+                "title":
+                    f"Connection request accepted by {instance.owner.username}!",
                 "category": 'connection_accepted',
-                "content": f'Your connection request to {instance.owner.username} has been accepted.',
+                "content":
+                    f'Your connection request to {instance.owner.username} has been accepted.',
                 "item_id": instance.id
             }
             create_notification(**sender_notification_data)
@@ -56,9 +59,11 @@ def connection_notification(sender, instance, created, **kwargs):
             data = {
                 "owner": instance.connection,
                 "sender": instance.owner,
-                "title": f"You have a new Connection request from {instance.owner.username}!",
+                "title":
+                    f"You have a new Connection request from {instance.owner.username}!",
                 "category": 'connection_request',
-                "content": f'{instance.owner.username} sent you a connection request.',
+                "content":
+                    f'{instance.owner.username} sent you a connection request.',
                 "item_id": instance.id
             }
             create_notification(**data)
@@ -73,7 +78,8 @@ def message_alert(sender, instance, created, **kwargs):
             "sender": instance.sender,
             "title": "New Message",
             "category": 'message_alert',
-            "content": f"You have received a new message from {instance.sender.username}.",
+            "content":
+                f"You have received a new message from {instance.sender.username}.",
             "item_id": instance.id
         }
         create_notification(**data)
@@ -87,13 +93,13 @@ def new_job_notification(sender, instance, created, **kwargs):
 
         # Iterate over the employee profiles and send notifications
         for profile in employee_profiles:
-            print("Sending notification to employee:", profile.owner)
             data = {
                 "owner": profile.owner,
                 "sender": instance.employer_profile.owner,
                 "title": "New Job Opportunity",
                 "category": 'new_job',
-                "content": f"New job opportunity: {instance.title} at {instance.employer_profile}.",
+                "content":
+                    f"New job opportunity: {instance.title} at {instance.employer_profile}.",
                 "item_id": instance.id
             }
             create_notification(**data)
@@ -108,7 +114,8 @@ def new_rating_notification(sender, instance, created, **kwargs):
             "sender": instance.created_by,
             "title": "New Rating",
             "category": 'new_rating',
-            "content": f"You have received a new rating from {instance.created_by.username}.",
+            "content":
+                f"You have received a new rating from {instance.created_by.username}.",
             "item_id": instance.id
         }
         Notification.objects.create(**data)

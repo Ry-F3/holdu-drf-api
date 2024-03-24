@@ -55,7 +55,8 @@ class NotificationSignalTest(APITestCase):
         self.assertEqual(notification1.item_id, connection.id)
 
         self.assertEqual(
-            notification2.title, f"Connection request accepted by {self.user1.username}!")
+            notification2.title,
+            f"Connection request accepted by {self.user1.username}!")
         self.assertEqual(notification2.sender, self.user1)
         self.assertEqual(notification2.content,
                          f'Your connection request to {self.user1.username} has been accepted.')
@@ -68,7 +69,8 @@ class NotificationSignalTest(APITestCase):
             owner=self.user2, category='connection_request')
 
         self.assertEqual(
-            notification.title, f"You have a new Connection request from {self.user1.username}!")
+            notification.title,
+            f"You have a new Connection request from {self.user1.username}!")
         self.assertEqual(notification.sender, self.user1)
         self.assertEqual(notification.content,
                          f'{self.user1.username} sent you a connection request.')
@@ -76,11 +78,11 @@ class NotificationSignalTest(APITestCase):
 
     def test_notification_created_for_new_message(self):
         """
-        Create a Chat instance 
+        Create a Chat instance
         """
         chat = Chat.objects.create(sender=self.user1, recipient=self.user2)
-        """ 
-        Create a Message instance with chat_id 
+        """
+        Create a Message instance with chat_id
         """
         message = Message.objects.create(
             chat=chat,
@@ -94,20 +96,21 @@ class NotificationSignalTest(APITestCase):
         self.assertEqual(notification.title, "New Message")
         self.assertEqual(notification.sender, self.user1)
         self.assertEqual(
-            notification.content, f'You have received a new message from {self.user1.username}.')
+            notification.content,
+            f'You have received a new message from {self.user1.username}.')
         self.assertEqual(notification.item_id, message.id)
 
     def test_notification_created_for_new_job(self):
-        """ 
+        """
         Trigger the signal by creating a new Job instance
         """
         notification_count_before = Notification.objects.count()
-        """ 
+        """
         Create a new Job instance
         """
         closing_date = timezone.now() + timedelta(days=10)
-        """ 
-        Create a new Job instance 
+        """
+        Create a new Job instance
         """
         job = Job.objects.create(
             employer_profile=self.profile,
@@ -117,7 +120,7 @@ class NotificationSignalTest(APITestCase):
         )
         notification_count_after = Notification.objects.count()
         """
-        Check if a new notification was created 
+        Check if a new notification was created
         """
         self.assertEqual(notification_count_after,
                          notification_count_before + 1)
@@ -131,5 +134,6 @@ class NotificationSignalTest(APITestCase):
         self.assertEqual(notification.title, "New Rating")
         self.assertEqual(notification.sender, self.user2)
         self.assertEqual(
-            notification.content, f"You have received a new rating from {self.user2.username}.")
+            notification.content,
+            f"You have received a new rating from {self.user2.username}.")
         self.assertEqual(notification.item_id, rating.id)
