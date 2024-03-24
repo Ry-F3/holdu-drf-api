@@ -298,85 +298,128 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <hr>
 
+### Automated Testing
+
+<hr>
+
+#### Unit and Intergration Testing
+
+1. **Scope:**
+    * Unit Testing: Focuses on testing individual units or components of a system in isolation, such as functions, methods, or classes.
+    * Integration Testing: Focuses on testing the interactions and interfaces between multiple units or components to ensure they work together as expected.
+
+2. **Dependencies:**
+    * Unit Testing: Aims to eliminate external dependencies by mocking or stubbing them, allowing tests to focus solely on the behavior of the unit being tested.
+    * Integration Testing: Tests the integration points and interactions between different units or components, including external dependencies such as databases, APIs, or third-party services.
+
+3. **Isolation:**
+    * Unit Testing: Tests are typically isolated from other parts of the system, ensuring that failures are localized and easy to diagnose.
+    * Integration Testing: Tests the system as a whole or significant portions of it, including the interactions between different components, allowing for the detection of issues that arise from the integration of these components.
+
+4. **Granularity:**
+    * Unit Testing: Offers finer granularity, allowing developers to test individual functionalities and edge cases within a specific unit or component.
+    * Integration Testing: Provides broader coverage, verifying that the system's components work together correctly and handle interactions as expected.
+
+5. **Execution Time:**
+    * Unit Testing: Generally faster to execute since tests focus on smaller units and have fewer dependencies.
+    * 8Integration Testing: May take longer to execute due to the involvement of multiple components and dependencies.
+
+
+In summary, while unit testing validates the correctness of individual units or components in isolation, integration testing ensures that these units collaborate effectively and produce the desired outcomes when integrated into the larger system. Both types of testing play complementary roles in ensuring the overall quality and reliability of software systems.
+
+<hr>
+
 <details>
 
-<summary>Test profiles</summary>
+<summary>Test profiles (TestCase)</summary>
 
 <hr>
 
 ![test-profiles](docs/images/testing-profiles.png)
 
+* **Purpose:** Tests the assignment of profile types (admin, employee, employer) to user profiles.
+
+* **Type:** Unit testing.
+
 </details>
 
 <hr>
 
 <details>
 
-<summary>Test jobs</summary>
+<summary>Test jobs (TestCase)</summary>
 
 <hr>
 
 ![test-jobs](docs/images/test-jobs.png)
 
+* **Purpose:** Tests job application functionality including applying for a job, unapplying for a job, and handling closed job listings.
+
+* **Type:** Integration testing.
+
 </details>
 
 <hr>
 
 <details>
 
-<summary>Test experience</summary>
+<summary>Test experience (TestCase)</summary>
 
 <hr>
 
 ![test-experience](docs/images/testing-experience.png)
 
+* **Purpose:** Tests CRUD operations for work experiences associated with user profiles.
+
+* **Type:** Integration testing.
+
 </details>
 
 <hr>
 
 <details>
 
-<summary>Test connections</summary>
+<summary>Test connections (TestCase)</summary>
 
 <hr>
 
 ![test-connections](docs/images/test-connections.png)
 
+* **Purpose:** Tests CRUD operations for user connections.
+
+* **Type:** Integration testing.
+
 </details>
 
 <hr>
 
 <details>
 
-<summary>Test chats</summary>
+<summary>Test chats  (APITestCase)</summary>
 
 <hr>
 
 ![test-chats](docs/images/test-chats.png)
 
+* **Purpose:** Tests CRUD operations for user chats and messages.
+
+* **Type:** Integration testing.
+
 </details>
 
 <hr>
 
 <details>
 
-<summary>Test comments</summary>
+<summary>Test comments (TestCase)</summary>
 
 <hr>
 
 ![test-comments](docs/images/test-comments.png)
 
-</details>
+* **Purpose:** Tests CRUD operations for comments on job listings.
 
-<hr>
-
-<details>
-
-<summary>Test likes</summary>
-
-<hr>
-
-![test-likes](docs/images/test-jobs.png)
+* **Type:** Integration testing.
 
 </details>
 
@@ -384,11 +427,30 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <details>
 
-<summary>Test notifications</summary>
+<summary>Test likes (TestCase)</summary>
+
+<hr>
+
+![test-likes](docs/images/test-likes.png)
+
+* **Purpose:** Tests CRUD operations for likes on job listings.
+* **Type:** Integration testing.
+
+</details>
+
+<hr>
+
+<details>
+
+<summary>Test notifications (APITestCase)</summary>
 
 <hr>
 
 ![test-notifications](docs/images/test-notifications.png)
+
+* **Purpose:** Tests notification creation signals for various events like new connections, messages, jobs, and ratings.
+
+* **Type:** Integration testing.
 
 </details>
 
@@ -400,11 +462,14 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <hr>
 
-![test-all](docs/images/test-all.png)
+![test-all-2](docs/images/test-all-2.png)
 
 <hr>
 
-![test-all-2](docs/images/test-all-2.png)
+![test-all](docs/images/test-all.png)
+
+[#16](https://github.com/Ry-F3/holdu-drf-api/issues/16) highlights an unresolved bug in the comments section. Please refer to the issue for further details.
+
 
 </details>
 
