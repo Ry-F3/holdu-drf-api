@@ -325,6 +325,8 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <hr>
 
+#### Jobs list view:
+
 ![jobs-list](docs/images/manual-jobs.png)
 
 </details>
@@ -336,6 +338,8 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 <summary> <a name="endpoint-2">2</a> screenshot</summary>
 
 <hr>
+
+#### Employer Profile type post job:
 
 ![jobs-post](docs/images/manual-jobs-post.png)
 
@@ -349,12 +353,13 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <hr>
 
-![jobs-post-int-apply](docs/images/manual-jobs-post-int.png)
+#### Employer Profile type post job detail:
+
+![jobs-post-int](docs/images/manual-jobs-post-int.png)
 
 </details>
 
 <hr>
-
 
 <details>
 
@@ -362,6 +367,7 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <hr>
 
+#### Employee Profile type apply for job:
 #### Pre:
 
 ![jobs-post-int-apply](docs/images/manual-jobs-post-int-apply-pre.png)
@@ -384,6 +390,8 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <hr>
 
+#### Employee Profile type unapply for job:
+
 ![jobs-post-int-unapply](docs/images/manual-jobs-post-int-unapply.png)
 
 </details>
@@ -396,19 +404,76 @@ The API utilises [Django Rest Framework](https://www.django-rest-framework.org/)
 
 <hr>
 
+#### Employer Profile type applicant view:
+
 ![jobs-post-int-applicants](docs/images/manual-jobs-post-int-applicants.png)
 
 </details>
 
 <hr>
 
+<details>
+
+<summary> <a name="endpoint-7">7</a> screenshot</summary>
+
+<hr>
+
+#### Employer Profile type applicant view detail:
+
+![jobs-post-int-applicants-int](docs/images/manual-jobs-post-intapplicants-int.png)
+
+#### Employer Profile type applicant choice:
+
+![jobs-post-int-applicants-int](docs/images/manual-jobs-post-intapplicants-int-put.png)
+
+</details>
+
+<hr>
+
+<details>
+
+<summary> <a name="endpoint-8">8</a> screenshot</summary>
+
+<hr>
+
+#### Employee Profile type applicant view & choice:
+
+![jobs-post-int-applicants-int-response](docs/images/manual-jobs-post-int-applicants-int-response.png)
 
 
+</details>
+
+<hr>
+
+<details>
+
+<summary> <a name="endpoint-9">9</a> screenshot</summary>
+
+<hr>
+
+#### Employer Profile type view employees:
+
+![jobs-post-int-employees](docs/images/manual-jobs-post-int-employees.png)
 
 
+</details>
+
+<hr>
+
+<details>
+
+<summary> <a name="endpoint-10">10</a> screenshot</summary>
+
+<hr>
+
+#### Employer Profile type view employees detail:
+
+![jobs-post-int-employees](docs/images/manual-jobs-post-int-employees-detail.png)
 
 
+</details>
 
+<hr>
 
 ### Automated Testing
 
