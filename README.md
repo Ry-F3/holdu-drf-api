@@ -1,7 +1,9 @@
 # Holdu
-## Django REST API for Health and Social Sector Job Application Platform
+## Django REST API for Health and Social Sector: Job Application Platform
 
 This project is a Django REST API designed for a social media job application platform tailored specifically for the health and social sector. Similar to LinkedIn, it facilitates interactions between employers and employees, with a focus on seamless job posting, application management, and offer processing.
+
+*The deployed Drf Api link can be found here:* ![link](https://holdu-c5c853e4534e.herokuapp.com/)
 
 ## Key Features:
 
@@ -487,19 +489,22 @@ All files underwent validation using a Python linter, specifically [PEP 8](https
 
 <hr>
 
-#### App: experience File: models.py
+#### App: experience 
+#### File: models.py
 
 ![pep8-testing](docs/images/pep8-experience-error.png)
 
 <hr>
 
-#### App: notifications File: signals.py
+#### App: notifications 
+#### File: signals.py
 
 ![pep8-testing](docs/images/pep8-notifications-signals-error.png)
 
 <hr>
 
-#### App: notifications File: tests.py
+#### App: notifications
+#### File: tests.py
 
 ![pep8-testing](docs/images/pep8-notifications-tests-error.png)
 
