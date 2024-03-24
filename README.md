@@ -475,3 +475,38 @@ In summary, while unit testing validates the correctness of individual units or 
 
 <hr>
 
+### PEP 8 
+
+<hr>
+
+All files underwent validation using a Python linter, specifically [PEP 8](https://pep8ci.herokuapp.com/). Most errors identified by the linter were addressed, ensuring adherence to the PEP 8 style guide. Remaining errors primarily stemmed from strings being excessively long, which led to futher errors if line breaks were to be introduced. Some of these long strings were reworded to comply with PEP 8 standards and eliminate the errors flagged by the linter.
+
+<details>
+
+<summary>Reveal remaining errors</summary>
+
+<hr>
+
+#### App: experience File: models.py
+
+![pep8-testing](docs/images/pep8-experience-error.png)
+
+<hr>
+
+#### App: notifications File: signals.py
+
+![pep8-testing](docs/images/pep8-notifications-signals-error.png)
+
+<hr>
+
+#### App: notifications File: tests.py
+
+![pep8-testing](docs/images/pep8-notifications-tests-error.png)
+
+<hr>
+
+</details>
+
+<hr>
+
+
