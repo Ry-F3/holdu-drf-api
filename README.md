@@ -514,4 +514,64 @@ All files underwent validation using a Python linter, specifically [PEP 8](https
 
 <hr>
 
+## Deployment
 
+<hr>
+
+The project was deployed to [Heroku](https://heroku.com). A live version of the API can be found ![here](https://holdu-c5c853e4534e.herokuapp.com/).
+
+# Deployment Steps
+
+<hr>
+
+To deploy the project, follow these instructions:
+
+1. Begin by cloning or forking the repository. If forking, visit the [GitHub repository](https://github.com/Ry-F3/holdu-drf-api) and click on `Fork`. To clone, run `git clone https://github.com/Ry-F3/holdu-drf-api` in your terminal.
+
+2. Register an account on [Cloudinary](https://cloudinary.com) and retrieve your Cloudinary URL from the dashboard by accessing the URL under `API Environment variable`.
+
+3. Set up a PostgreSQL database, such as on [ElephantSQL](https://www.elephantsql.com/). After creating an account and logging in, click on `Create new instance` and follow the prompts. Access the URL from the database details. *Note: soon Elephant SQL will be closing their services. An alternative will need to be researched in the future.*
+
+4. Register on [Heroku](https://heroku.com) and sign in. Proceed to create a new app via the [Heroku dashboard](https://dashboard.heroku.com) by selecting `New` and then `Create new app`.
+
+5. Choose a suitable name for your app and specify your region (US or Europe).
+
+6. Once the app is created, navigate to the *Settings* tab and reveal the *Config Vars* section by clicking on `Reveal Config Vars`.
+
+7. Add the following configuration variables one by one:
+
+    | Key | Value | 
+    |---|---|
+    | ALLOWED_HOSTS | <your deployed Heroku API app URL> * |
+    | CLIENT_ORIGIN_DEV | <your development environment URL> ** |
+    | CLIENT_ORIGIN | <your client URL> |
+    | CLOUDINARY_URL | <Your Cloudinary URL> | 
+    | DATABASE_URL | <Your database URL> | 
+    | DISABLE_COLLECTSTATIC | 1 |
+    | SECRET_KEY | <a random string> |
+
+    \* Paste the heroku app URL without 'https://' or a trailing slash!
+
+8. Proceed to the *Deploy* tab and link your Heroku app to your GitHub repository.
+
+9. Scroll down and select the desired branch in the *Manual deploy* section. Click on `Deploy Branch` to initiate the initial deployment of the application.
+
+10. After deployment, click on `View` to access your deployed app.
+    *  If encountering any issues, access logs by selecting `More` and then `View logs`, or utilise the *Activity* tab for debugging purposes.
+
+
+## Bibliography
+
+
+* Code Institute's Django Rest Framework walkthrough project: [source code](https://github.com/Code-Institute-Solutions/drf-api/)
+   * Re-used Code: The project's setup and structure draw inspiration from the Code Institute's *Django Rest Framework* walkthrough project. Elements such as the Profile, Like and Comment, along with their respective serializers, are adapted from the walkthrough project. These components, including the filtering functionality, have been customised to suit the project's specific requirements.
+
+<hr>
+
+* AWS Documentation - Unit Testing: [link](https://aws.amazon.com/what-is/unit-testing/#:~:text=Unit%20testing%20is%20the%20process,test%20for%20each%20code%20unit)
+*  Python Documentation - unittest: [link](https://docs.python.org/3/library/unittest.html)
+*  Python Documentation - Data Model: [link](https://docs.python.org/3/reference/datamodel.html)
+*  Postman Blog - What is an API Endpoint?: [link](https://blog.postman.com/what-is-an-api-endpoint/)
+*  Django Documentation - Many-to-many relationships: [link](https://docs.djangoproject.com/en/5.0/topics/db/examples/many_to_many/)
+*  Instructions for Django signals: [source](https://www.geeksforgeeks.org/how-to-create-and-use-signals-in-django/)
+*  Sonic Explorers API: [source](https://github.com/nacht-falter/sonic-explorers-api)
