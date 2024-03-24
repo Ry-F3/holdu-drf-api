@@ -20,7 +20,7 @@ class ConnectionTests(TestCase):
         self.client.force_authenticate(user=self.user1)
         url = reverse('connection-list')
         """
-        Omitting the 'connection' field to simulate invalid data 
+        Omitting the 'connection' field to simulate invalid data
         """
         data = {}
         response = self.client.post(url, data, format='json')
@@ -28,8 +28,8 @@ class ConnectionTests(TestCase):
         Expect a 400 Bad Request response
         """
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        """ 
-        Ensure that no connection is created 
+        """
+        Ensure that no connection is created
         """
         self.assertFalse(Connection.objects.filter(
             owner=self.user1, connection=self.user2).exists())

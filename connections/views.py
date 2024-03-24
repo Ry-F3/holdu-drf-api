@@ -12,12 +12,14 @@ class ConnectionList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         """Filter connections by the owner and accepted status"""
-        return Connection.objects.filter(owner=self.request.user, accepted=True)
+        return Connection.objects.filter(
+            owner=self.request.user, accepted=True)
 
     def perform_create(self, serializer):
         """Create a new connection"""
         serializer.save(owner=self.request.user)
-        return Response({"message": "Connection request sent"}, status=status.HTTP_201_CREATED)
+        return Response({"message": "Connection request sent"},
+                        status=status.HTTP_201_CREATED)
 
 
 class AcceptedConnectionList(generics.ListAPIView):
@@ -26,7 +28,8 @@ class AcceptedConnectionList(generics.ListAPIView):
 
     def get_queryset(self):
         """Retrieve accepted connections"""
-        return Connection.objects.filter(owner=self.request.user, accepted=True)
+        return Connection.objects.filter(
+            owner=self.request.user, accepted=True)
 
 
 class PendingConnectionList(generics.ListAPIView):
@@ -35,11 +38,13 @@ class PendingConnectionList(generics.ListAPIView):
 
     def get_queryset(self):
         """Retrieve pending connections"""
-        return Connection.objects.filter(connection=self.request.user, accepted=False)
+        return Connection.objects.filter(
+            connection=self.request.user, accepted=False)
 
 
 class ConnectionDetail(generics.RetrieveDestroyAPIView):
-    permission_classes = [permissions.IsAuthenticated, IsOwnerReadOnly]
+    permission_classes = [permissions.IsAuthenticated,
+                          IsOwnerReadOnly]
     queryset = Connection.objects.all()
     serializer_class = ConnectionSerializer
 
@@ -50,20 +55,24 @@ class ConnectionDetail(generics.RetrieveDestroyAPIView):
 
         """Check if a reverse connection exists"""
         reverse_connection = Connection.objects.filter(
-            owner=connection.connection, connection=connection.owner).first()
+            owner=connection.connection,
+            connection=connection.owner).first()
 
         if not reverse_connection:
             """
-            If reverse connection doesn't exist, check if there's a connection with the same users but flipped 
+            If reverse connection doesn't exist,
+            check if there's a connection with the same users but flipped
             """
             reverse_connection = Connection.objects.filter(
-                owner=connection.owner, connection=connection.connection).first()
+                owner=connection.owner,
+                connection=connection.connection).first()
 
         if reverse_connection:
             """If reverse connection exists, delete it as well"""
             reverse_connection.delete()
 
-        return Response({"message": "Connection deleted"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Connection deleted"},
+                        status=status.HTTP_204_NO_CONTENT)
 
 
 class AcceptConnection(generics.RetrieveUpdateAPIView):
@@ -88,9 +97,11 @@ class AcceptConnection(generics.RetrieveUpdateAPIView):
         else:
             """If reverse connection doesn't exist, create it"""
             reverse_connection = Connection.objects.create(
-                owner=connection.connection, connection=connection.owner, accepted=True)
+                owner=connection.connection,
+                connection=connection.owner, accepted=True)
 
-        return Response({"message": "Connection request accepted"}, status=status.HTTP_200_OK)
+        return Response({"message": "Connection request accepted"},
+                        status=status.HTTP_200_OK)
 
 
 class DeclineConnection(generics.RetrieveDestroyAPIView):
@@ -105,15 +116,19 @@ class DeclineConnection(generics.RetrieveDestroyAPIView):
 
         """Check if a reverse connection exists"""
         reverse_connection = Connection.objects.filter(
-            owner=connection.connection, connection=connection.owner).first()
+            owner=connection.connection,
+            connection=connection.owner).first()
 
         if not reverse_connection:
-            """If reverse connection doesn't exist, check if there's a connection with the same users but flipped"""
+            """If reverse connection doesn't exist,
+            check if there's a connection with the same users but flipped"""
             reverse_connection = Connection.objects.filter(
-                owner=connection.owner, connection=connection.connection).first()
+                owner=connection.owner,
+                connection=connection.connection).first()
 
         if reverse_connection:
             """If reverse connection exists, delete it as well"""
             reverse_connection.delete()
 
-        return Response({"message": "Connection request declined"}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"message": "Connection request declined"},
+                        status=status.HTTP_204_NO_CONTENT)

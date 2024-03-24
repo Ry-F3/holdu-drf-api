@@ -5,7 +5,8 @@ from .models import Connection
 
 class ConnectionSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    connection_name = serializers.ReadOnlyField(source='connection.username')
+    connection_name = serializers.ReadOnlyField(
+        source='connection.username')
 
     class Meta:
         model = Connection
@@ -17,9 +18,11 @@ class ConnectionSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # Check if the serializer is used for creating a new connection
-        if self.context.get('request') and hasattr(self.context['request'], 'method'):
+        if self.context.get('request') and hasattr(
+                self.context['request'], 'method'):
             request_method = self.context['request'].method
-            if request_method == 'POST':  # If the request is for creating a new connection
+            if request_method == 'POST':
+                # If the request is for creating a new connection
                 # Remove the 'accepted' field from the form
                 self.fields.pop('accepted', None)
 
@@ -31,7 +34,8 @@ class ConnectionSerializer(serializers.ModelSerializer):
 
         # Check if the connection already exists
         existing_connection = Connection.objects.filter(
-            owner=validated_data['owner'], connection=validated_data['connection']).exists()
+            owner=validated_data['owner'],
+            connection=validated_data['connection']).exists()
         if existing_connection:
             raise serializers.ValidationError(
                 {'detail': 'You have already made this connection.'})
