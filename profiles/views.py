@@ -22,7 +22,6 @@ class ProfilesView(generics.ListAPIView):
     """
     View to retrieve all profiles.
     """
-    permission_classes = [IsAuthenticated]
     serializer_class = BaseProfileSerializer
     queryset = Profile.objects.annotate(
         likes_count=Count('owner__like', distinct=True),
