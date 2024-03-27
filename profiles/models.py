@@ -1,8 +1,9 @@
 from django.db import models
 from django.db.models.signals import post_save
-from django.dispatch import receiver
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils import timezone
+
+CustomUser = get_user_model()
 
 
 class Profile(models.Model):
@@ -13,7 +14,7 @@ class Profile(models.Model):
     )
 
     owner = models.OneToOneField(
-        User, on_delete=models.CASCADE, related_name='profile')
+        CustomUser, on_delete=models.CASCADE, related_name='profile')
     profile_type = models.CharField(
         max_length=10, choices=PROFILE_CHOICES, blank=True
     )
@@ -45,9 +46,9 @@ class Rating(models.Model):
     rating = models.IntegerField(choices=RATINGS_CHOICES, default=1)
     comment = models.TextField(blank=True)
     rate_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='ratings_received')
+        CustomUser, on_delete=models.CASCADE, related_name='ratings_received')
     created_by = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='ratings_given')
+        CustomUser, on_delete=models.CASCADE, related_name='ratings_given')
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
 
@@ -55,11 +56,9 @@ class Rating(models.Model):
         return f"Rating: {self.rating}"
 
 
-@receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
-        profile_type = instance.profile_type
-        Profile.objects.create(owner=instance, profile_type=profile_type)
+        Profile.objects.create(owner=instance)
 
 
-post_save.connect(create_profile, sender=User)
+post_save.connect(create_profile, sender=CustomUser)
