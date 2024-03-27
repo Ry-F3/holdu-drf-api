@@ -1,8 +1,9 @@
 from django.http import Http404
 from rest_framework.exceptions import NotFound, PermissionDenied
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from rest_framework import status, generics, filters
 from rest_framework.views import APIView
+from django.contrib.auth.views import LoginView
 from rest_framework.response import Response
 from .models import Profile, Rating
 from rest_framework.permissions import IsAuthenticated
@@ -16,6 +17,25 @@ from .serializers import (
     RateUserSerializer,
     BaseProfileSerializer, RatingSerializer,
 )
+
+
+class MyLoginView(LoginView):
+    def dispatch(self, request, *args, **kwargs):
+        """ 
+        Call the parent dispatch method to handle the login logic 
+        """
+        response = super().dispatch(request, *args, **kwargs)
+
+        """
+        Check if the user is authenticated and has an empty profile type
+        """
+        if request.user.is_authenticated and not request.user.profile_type:
+            """
+            Redirect the user to the profile detail page
+            """
+            return redirect('profile-detail', pk=request.user.profile.pk)
+
+        return response
 
 
 class ProfilesView(generics.ListAPIView):
