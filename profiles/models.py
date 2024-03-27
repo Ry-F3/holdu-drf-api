@@ -52,3 +52,11 @@ class Rating(models.Model):
 
     def __str__(self):
         return f"Rating: {self.rating}"
+
+
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(owner=instance)
+
+
+post_save.connect(create_profile, sender=User)
