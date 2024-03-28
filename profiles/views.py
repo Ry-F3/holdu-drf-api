@@ -19,25 +19,6 @@ from .serializers import (
 )
 
 
-class MyLoginView(LoginView):
-    def dispatch(self, request, *args, **kwargs):
-        """ 
-        Call the parent dispatch method to handle the login logic 
-        """
-        response = super().dispatch(request, *args, **kwargs)
-
-        """
-        Check if the user is authenticated and has an empty profile type
-        """
-        if request.user.is_authenticated and not request.user.profile_type:
-            """
-            Redirect the user to the profile detail page
-            """
-            return redirect('profile-detail', pk=request.user.profile.pk)
-
-        return response
-
-
 class ProfilesView(generics.ListAPIView):
     """
     View to retrieve all profiles.

@@ -13,9 +13,6 @@ class BaseProfileSerializer(serializers.ModelSerializer):
     owner_username = serializers.ReadOnlyField(source='owner.username')
     owner_id = serializers.ReadOnlyField(source='owner.id')
     is_owner = serializers.SerializerMethodField()
-    profile_type_display = serializers.ChoiceField(
-        choices=Profile.PROFILE_CHOICES,
-        source='get_profile_type_display', read_only=True)
     average_rating = serializers.ReadOnlyField()
     ratings = serializers.SerializerMethodField()
     connections_id = serializers.SerializerMethodField(read_only=True)
@@ -49,7 +46,7 @@ class BaseProfileSerializer(serializers.ModelSerializer):
                   'updated_at', 'name', 'content', 'image', 'is_owner',
                   'average_rating', 'ratings',
                   'connections_count', 'connections_id',
-                  'likes_count', 'profile_type_display']
+                  'likes_count', 'profile_type']
 
 
 class EmployeeProfileSerializer(BaseProfileSerializer):

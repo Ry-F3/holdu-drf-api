@@ -73,3 +73,13 @@ class IsOwnerOrSender(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         # Check if the user is the owner of the chat or the sender of the message
         return obj.sender == request.user or obj.recipient == request.user
+
+
+class HasProfileType(permissions.BasePermission):
+    """
+    Custom permission to only allow users with a profile type to access the view.
+    """
+
+    def has_permission(self, request, view):
+        # Check if the user is authenticated and has a profile type
+        return request.user.is_authenticated and request.user.profile_type

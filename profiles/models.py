@@ -1,9 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
-from django.contrib.auth import get_user_model
+from django.contrib.auth import User
 from django.utils import timezone
-
-CustomUser = get_user_model()
 
 
 class Profile(models.Model):
@@ -61,4 +59,4 @@ def create_profile(sender, instance, created, **kwargs):
         Profile.objects.create(owner=instance)
 
 
-post_save.connect(create_profile, sender=CustomUser)
+post_save.connect(create_profile, sender=User)
