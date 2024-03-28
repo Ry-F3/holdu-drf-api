@@ -21,6 +21,17 @@ from .serializers import (
 )
 
 
+class SignupListView(generics.ListAPIView):
+    """
+    List view for signups.
+    """
+    serializer_class = SignupProfileSerializer  # Use SignupProfileSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Profile.objects.filter(owner=user)
+
+
 class SignupView(generics.RetrieveUpdateAPIView):
     """
     Signup detail view.
