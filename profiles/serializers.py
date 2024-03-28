@@ -120,6 +120,7 @@ class RatingSerializer(serializers.ModelSerializer):
 class SignupProfileSerializer(serializers.ModelSerializer):
     is_completed = serializers.BooleanField(
         source='signup_completion.is_completed', read_only=True)
+    image = serializers.ImageField()
 
     class Meta:
         model = Profile
