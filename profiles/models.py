@@ -44,9 +44,9 @@ class Rating(models.Model):
     rating = models.IntegerField(choices=RATINGS_CHOICES, default=1)
     comment = models.TextField(blank=True)
     rate_user = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name='ratings_received')
+        User, on_delete=models.CASCADE, related_name='ratings_received')
     created_by = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE, related_name='ratings_given')
+        User, on_delete=models.CASCADE, related_name='ratings_given')
     created_at = models.DateTimeField(default=timezone.now, editable=False)
     updated_at = models.DateTimeField(default=timezone.now)
 
