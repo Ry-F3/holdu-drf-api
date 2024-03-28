@@ -2,7 +2,6 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.dispatch import receiver
 
 
 class Profile(models.Model):
@@ -26,6 +25,7 @@ class Profile(models.Model):
     ratings = models.ManyToManyField(
         'Rating', related_name='profiles', blank=True)
     average_rating = models.FloatField(default=0)
+    is_signup_completed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_at']
@@ -33,29 +33,12 @@ class Profile(models.Model):
     def __str__(self):
         return f"{self.owner}'s profile"
 
-
-class SignupCompletion(models.Model):
-    profile = models.OneToOneField(
-        Profile, on_delete=models.CASCADE, related_name='signup_completion')
-    is_completed = models.BooleanField(default=False)
-    signup_step = models.IntegerField(default=0)
-
-    def __str__(self):
-        return f"{self.profile.owner}'s signup completion status"
-
-
-@receiver(post_save, sender=Profile)
-def create_or_update_signup_completion(sender, instance, created, **kwargs):
-    if created:
-        SignupCompletion.objects.create(profile=instance)
-    else:
-        signup_completion = instance.signup_completion
-        # Check if profile type, name, and content are not empty
-        if instance.profile_type and instance.name and instance.content:
-            signup_completion.is_completed = True
+    def save(self, *args, **kwargs):
+        if self.profile_type in dict(self.PROFILE_CHOICES).keys():
+            self.is_signup_completed = True
         else:
-            signup_completion.is_completed = False
-        signup_completion.save()
+            self.is_signup_completed = False
+        super().save(*args, **kwargs)
 
 
 class Rating(models.Model):
