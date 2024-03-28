@@ -5,7 +5,7 @@ from rest_framework import status, generics, filters
 from rest_framework.views import APIView
 from django.contrib.auth.views import LoginView
 from rest_framework.response import Response
-from .models import Profile, Rating
+from .models import Profile, Rating, SignupCompletion
 from rest_framework.permissions import IsAuthenticated
 from drf_api.permissions import IsOwnerReadOnly, IsRatingCreator
 from django.db.models import Avg, Count, Q
@@ -16,7 +16,33 @@ from rest_framework.generics import (
 from .serializers import (
     RateUserSerializer,
     BaseProfileSerializer, RatingSerializer,
+    SignupProfileSerializer, SignupCompletionSerializer,
+    SignupViewSerializer
 )
+
+
+class SignupView(generics.RetrieveUpdateAPIView):
+    """
+    Signup detail view.
+    """
+    permission_classes = [IsAuthenticated]
+    queryset = Profile.objects.all()
+    serializer_class = SignupViewSerializer
+
+    def get_object(self):
+        user = self.request.user
+        profile = get_object_or_404(Profile, owner=user)
+        signup_completion = get_object_or_404(
+            SignupCompletion, profile=profile)
+        return {'profile': profile, 'signup_completion': signup_completion}
+
+    def put(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
 
 
 class ProfilesView(generics.ListAPIView):

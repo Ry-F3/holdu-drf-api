@@ -2,11 +2,11 @@ from django.urls import path
 from profiles import views
 from .views import (
     ProfilesView, ProfileDetailView, RateUserView, ProfileRatingAPIView,
-    RatingEditAPIView
+    RatingEditAPIView, SignupView
 )
 
 urlpatterns = [
-
+    path('signupform/<int:pk>', SignupView.as_view(), name='signup-detail'),
     path('profiles/', ProfilesView.as_view(), name='profiles'),
     path('profiles/<int:pk>/', ProfileDetailView.as_view(), name='profile-detail'),
     path('profiles/<int:pk>/rate-user/',

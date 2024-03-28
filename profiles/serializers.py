@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile
+from .models import Profile, SignupCompletion
 from .models import Rating
 from connections.models import Connection
 from django.contrib.auth.models import User
@@ -115,3 +115,20 @@ class RatingSerializer(serializers.ModelSerializer):
             profile_data = profile_serializer.data
             return profile_data
         return None
+
+
+class SignupProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['id', 'owner', 'profile_type', 'name', 'content', 'image']
+
+
+class SignupCompletionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SignupCompletion
+        fields = ['is_completed', 'signup_step']
+
+
+class SignupViewSerializer(serializers.Serializer):
+    profile = SignupProfileSerializer()
+    signup_completion = SignupCompletionSerializer()
