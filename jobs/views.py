@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
 from .models import Job, Application
+from django_filters.rest_framework import DjangoFilterBackend
 from profiles.models import Profile
 from .serializers import (
     JobSerializer, ApplicationSerializer,
@@ -24,9 +25,13 @@ class JobListView(generics.ListAPIView):
 
     filter_backends = [
         filters.OrderingFilter,
-        filters.SearchFilter
+        filters.SearchFilter,
+        DjangoFilterBackend,
     ]
-
+    filterset_fields = [
+        'employer_profile__owner__username',
+        'employees__owner__username',
+    ]
     search_fields = [
         'title',
         'salary',
