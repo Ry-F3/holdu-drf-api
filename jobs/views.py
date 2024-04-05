@@ -21,7 +21,10 @@ from django.utils import timezone
 
 
 class JobListView(generics.ListAPIView):
-    queryset = Job.objects.all()
+    queryset = Job.objects.annotate(
+        likes_count=Count('likes', distinct=True),
+        comments_count=Count('comment', distinct=True)
+    )
     serializer_class = JobSerializer
 
     filter_backends = [

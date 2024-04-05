@@ -15,6 +15,8 @@ class JobSerializer(serializers.ModelSerializer):
     is_applied = serializers.SerializerMethodField(default=False)
     job_listing_id = serializers.SerializerMethodField()
     like_id = serializers.SerializerMethodField()
+    likes_count = serializers.ReadOnlyField()
+    comments_count = serializers.ReadOnlyField()
 
     class Meta:
         model = Job
@@ -22,7 +24,7 @@ class JobSerializer(serializers.ModelSerializer):
                   'description', 'location', 'salary', 'closing_date',
                   'created_at', 'updated_at', 'is_listing_closed',
                   'positions_available', 'employees',
-                  'applicants', 'like_id', 'is_applied']
+                  'applicants', 'like_id', 'is_applied', 'likes_count', 'comments_count']
 
     def get_is_applied(self, obj):
         request = self.context.get('request')
