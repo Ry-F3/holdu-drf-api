@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, status, serializers, filters
 from rest_framework.views import APIView
 from django.http import Http404
+from django.db.models import Count
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import ValidationError
@@ -55,7 +56,10 @@ class JobPostView(generics.CreateAPIView):
 
 
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Job.objects.all()
+    queryset = Job.objects.annotate(
+        likes_count=Count('likes', distinct=True),
+        comments_count=Count('comment', distinct=True)
+    ).order_by('-created_at')
     serializer_class = JobSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerReadOnly]
 
