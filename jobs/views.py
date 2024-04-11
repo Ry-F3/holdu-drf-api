@@ -235,7 +235,7 @@ class UnapplyJobView(generics.DestroyAPIView):
 
 class ApplicantListView(generics.ListAPIView):
     serializer_class = ApplicantSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsEmployerProfile]
 
     filter_backends = [
         filters.OrderingFilter,
@@ -260,18 +260,18 @@ class ApplicantListView(generics.ListAPIView):
             Job, id=job_id,
             employer_profile=self.request.user.profile)
 
-        # """
-        # Update is_listing_closed field based on current time
-        # """
-        # if job.closing_date <= timezone.now():
-        #     job.is_listing_closed = True
-        #     job.save()
-        # else:
-        #     """
-        #     If the listing is not closed, raise a ValidationError
-        #     """
-        #     raise ValidationError(
-        #         "The job listing is not closed yet.")
+        """
+        Update is_listing_closed field based on current time
+        """
+        if job.closing_date <= timezone.now():
+            job.is_listing_closed = True
+            job.save()
+        else:
+            """
+            If the listing is not closed, raise a ValidationError
+            """
+            raise ValidationError(
+                "The job listing is not closed yet.")
 
         """
         Return filtered applicants related to the job
