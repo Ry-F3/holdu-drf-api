@@ -13,7 +13,7 @@ class ConnectionList(generics.ListCreateAPIView):
     def get_queryset(self):
         """Filter connections by the owner and accepted status"""
         return Connection.objects.filter(
-            owner=self.request.user, accepted=True)
+            owner=self.request.user)
 
     def perform_create(self, serializer):
         """Create a new connection"""
