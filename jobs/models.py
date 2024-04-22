@@ -8,7 +8,7 @@ class Job(models.Model):
     description = models.TextField()
     location = models.CharField(max_length=100)
     salary = models.DecimalField(
-        max_digits=10, decimal_places=2, null=True, blank=True)
+        max_digits=10, decimal_places=2, null=True)
     employer_profile = models.ForeignKey(
         'profiles.Profile', on_delete=models.CASCADE,
         related_name='jobs_created',
