@@ -82,7 +82,7 @@ class ProfileDetailView(generics.RetrieveUpdateDestroyAPIView):
     """
     Profile detail view.
     """
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = Profile.objects.all()
     serializer_class = BaseProfileSerializer
 
